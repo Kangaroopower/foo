@@ -914,26 +914,6 @@ iglooTime.prototype.buildInterface = function () {
 	histButton.id = "igloo-hist"
 	histButton.innerHTML = '<img src= "' + iglooUserSettings.serverLoc + 'images/igloo-hist.png">';
 
-	$('#igloo-hist').mouseover(function () {
-		if (me.pageTitle !== '') {
-			if ( me.hist.timer ) { 
-				clearTimeout ( me.hist.timer ); 
-				me.hist.timer = false; 
-			} else {
-				me.hist.getHistory();
-			}
-		}
-	});
-
-	$('#igloo-hist').mouseout(function () {
-		if (me.pageTitle !== '') {
-			me.hist.timer = setTimeout(function() {
-				me.hist.end();
-				me.hist.timer = false; 
-			}, iglooUserSettings.histWinTimeout * 1000);
-		}
-	});
-
 	var histCatcher = document.createElement('div'),
 		histDisplay = document.createElement('div'), 
 		histCont = document.createElement('ul');
@@ -951,7 +931,10 @@ iglooTime.prototype.buildInterface = function () {
 	$(histButton).append(histCatcher);
 	$(histButton).append(histDisplay);
 
-	$('#igloo-hist').css({
+	igloo.toolPane.panel.appendChild(histButton);
+
+
+		$('#igloo-hist').css({
 		'position': 'relative',
 		'float': 'right',
 		'width': '73px',
@@ -992,8 +975,26 @@ iglooTime.prototype.buildInterface = function () {
 		'overflow-y': 'auto',
 		display: 'none'
 	});
+	
+	$('#igloo-hist').mouseover(function () {
+		if (me.pageTitle !== '') {
+			if ( me.hist.timer ) { 
+				clearTimeout ( me.hist.timer ); 
+				me.hist.timer = false; 
+			} else {
+				me.hist.getHistory();
+			}
+		}
+	});
 
-	igloo.toolPane.panel.appendChild(histButton);
+	$('#igloo-hist').mouseout(function () {
+		if (me.pageTitle !== '') {
+			me.hist.timer = setTimeout(function() {
+				me.hist.end();
+				me.hist.timer = false; 
+			}, iglooUserSettings.histWinTimeout * 1000);
+		}
+	});
 };
 
 // Class iglooHist object handles the retrieval and display of the history of a page

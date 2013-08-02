@@ -725,7 +725,6 @@ iglooRevision.prototype.retrieveUser = function () {
 			dataType: 'json',
 			context: me,
 			success: function (data) {
-				console.log(data.query.pages[data.query.pageids[0]]);
 				this.user = data.query.pages[data.query.pageids[0]].revisions[0].user;
 				userRequest = null;
 			}
@@ -818,6 +817,11 @@ iglooRevision.prototype.display = function () {
 			revId: -1,
 			user: ''
 		});
+
+		//There's no history for new pages
+		igloo.fireEvent('history','new-diff', {
+			pageTitle: ''
+		});
 	} else if (displayWhat === 'diff') {
 		var table = document.createElement('table'), h2 = document.createElement('h2'), me = this;
 
@@ -855,6 +859,11 @@ iglooRevision.prototype.display = function () {
 			pageTitle: me.pageTitle,
 			revId: me.revId,
 			user: me.user
+		});
+
+		//Alert history to page info
+		igloo.fireEvent('history','new-diff', {
+			pageTitle: me.pageTitle
 		});
 
 		// we can now revert this edit
@@ -975,8 +984,8 @@ iglooTime.prototype.buildInterface = function () {
 		'overflow-y': 'auto',
 		display: 'none'
 	});
-	
-	$('#igloo-hist').mouseover(function () {
+
+	$('#igloo-hist img').mouseover(function () {
 		if (me.pageTitle !== '') {
 			if ( me.hist.timer ) { 
 				clearTimeout ( me.hist.timer ); 
@@ -987,7 +996,7 @@ iglooTime.prototype.buildInterface = function () {
 		}
 	});
 
-	$('#igloo-hist').mouseout(function () {
+	$('#igloo-hist img').mouseout(function () {
 		if (me.pageTitle !== '') {
 			me.hist.timer = setTimeout(function() {
 				me.hist.end();
@@ -1476,7 +1485,7 @@ function iglooStatus () {
 
 		$(this.display).css({
 			'left': '0px',
-			'top': (parseInt(igloo.canvas.canvasBase.children[0].style.height) - 255) + 'px',	
+			'top': (parseInt(igloo.canvas.canvasBase.children[0].style.height) - 252) + 'px',	
 			'width': '100%',
 			'height': '140px',
 			'background-color': jin.Colour.LIGHT_GREY,

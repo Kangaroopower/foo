@@ -926,7 +926,7 @@ iglooTime.prototype.buildInterface = function () {
 
 	$(histButton).mouseout(function () {
 		me.hist.timer = setTimeout(function() {
-			me.hist.stop();
+			me.hist.end();
 			me.hist.timer = false; 
 		}, iglooUserSettings.histWinTimeout * 1000);
 	});
@@ -1038,7 +1038,7 @@ iglooHist.prototype.getHistory = function (callback, data) {
 	}
 };
 
-iglooHist.prototype.stop = function  () {
+iglooHist.prototype.end = function  () {
 	document.getElementById('igloo-hist-display').style.display = 'none';
  	document.getElementById('igloo-hist-catcher').style.display = 'none';
 };

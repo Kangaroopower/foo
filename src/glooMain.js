@@ -195,7 +195,7 @@ function iglooMain () {
 			// Create diff container.
 			this.diffContainer = new jin.Panel();
 			this.diffContainer.setPosition(0, 13);
-			this.diffContainer.setSize(0, (mainPanel.right.getHeight() - 260));
+			this.diffContainer.setSize(0, (mainPanel.right.getHeight() - 160));
 			this.diffContainer.setColour(jin.Colour.WHITE);
 			this.diffContainer.setOverflow('auto');
 			

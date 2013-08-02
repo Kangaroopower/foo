@@ -69,7 +69,7 @@ var iglooUserSettings = {
 	notifyWarningDone: true
 
 	//History Module
-	
+
 };
 
 function getp (obj) {
@@ -195,7 +195,7 @@ function iglooMain () {
 			// Create diff container.
 			this.diffContainer = new jin.Panel();
 			this.diffContainer.setPosition(0, 13);
-			this.diffContainer.setSize(0, 0);
+			this.diffContainer.setSize(0, (mainPanel.right.getActualHeight() - 260));
 			this.diffContainer.setColour(jin.Colour.WHITE);
 			this.diffContainer.setOverflow('auto');
 			

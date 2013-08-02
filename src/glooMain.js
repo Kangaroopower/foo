@@ -983,9 +983,11 @@ iglooTime.prototype.buildInterface = function () {
 
 	histCont.innerHTML = '';
 	histCatcher.innerHTML = '';
-	histDisplay.innerHTML = '<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>' + histCont;
+	histDisplay.innerHTML = '<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>';
+	$(histDisplay).append(histCont);
 
-	histButton.innerHTML += histCatcher + histDisplay + '';
+	$(histButton).append(histCatcher);
+	$(histButton).append(histDisplay);
 
 	igloo.toolPane.panel.appendChild(histButton);
 };

@@ -996,7 +996,7 @@ function iglooHist (pageTitle) {
 	this.timer = null;
 	this.pageTitle = pageTitle;
 }
-igloo.prototype.getHistory = function (callback, data) {
+iglooHist.prototype.getHistory = function (callback, data) {
 	// the get history module retrieves a page history and displays it to the user
 	var me = this;
 

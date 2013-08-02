@@ -913,7 +913,7 @@ iglooTime.prototype.buildInterface = function () {
 	histButton.id = "igloo-hist"
 	histButton.innerHTML = '<img src= "' + iglooUserSettings.serverLoc + 'images/igloo-hist.png">';
 
-	$(histButton).mouseover(function () {
+	$('#igloo-hist').mouseover(function () {
 		if (me.pageTitle !== '') {
 			if ( me.hist.timer ) { 
 				clearTimeout ( me.hist.timer ); 
@@ -924,7 +924,7 @@ iglooTime.prototype.buildInterface = function () {
 		}
 	});
 
-	$(histButton).mouseout(function () {
+	$('#igloo-hist').mouseout(function () {
 		if (me.pageTitle !== '') {
 			me.hist.timer = setTimeout(function() {
 				me.hist.end();
@@ -933,7 +933,7 @@ iglooTime.prototype.buildInterface = function () {
 		}
 	});
 
-	$(histButton).css({
+	$('#igloo-hist').css({
 		'position': 'relative',
 		'float': 'right',
 		'width': '73px',
@@ -952,7 +952,7 @@ iglooTime.prototype.buildInterface = function () {
 	histCont.id = "igloo-hist-cont";
 	histCatcher.id = "igloo-hist-catcher";
 	
-	$(histCatcher).css({
+	$('#igloo-hist-catcher').css({
 		top: '87px',
 		width: '170px',
 		height: '80px',
@@ -961,7 +961,7 @@ iglooTime.prototype.buildInterface = function () {
 		display: 'none'
 	});
 
-	$(histDisplay).css({
+	$('#igloo-hist-display').css({
 		top: '93px',
 		width: '170px',
 		backgroundColor: jin.Colour.GREY,
@@ -972,7 +972,7 @@ iglooTime.prototype.buildInterface = function () {
 		display: 'none',
 	});
 
-	$(histCont).css({
+	$('#igloo-hist-cont').css({
 		top: '87px',
 		width: '100%',
 		height: '100%',

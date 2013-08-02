@@ -1029,7 +1029,7 @@ igloo.prototype.getHistory = function (callback, data) {
 				pageHistory += '<li id="iglooHist_'+revision.ids.revid+'" onclick="igloo.recentChanges.load(\''+me.pageTitle.replace ('\'', '\\\'')+'\', \''+revision.user+'\', \''+revision.ids.revid+'\');" onmouseover="this.style.backgroundColor = \''+jin.Colour.LIGHT_GREY+'\';" onmouseout="this.style.backgroundColor = \''+jin.Colour.WHITE+'\';" style="cursor: pointer; width: 186px; padding: 2px; border-bottom: 1px solid #000000; list-style-type: none; list-style-image: none; marker-offset: 0px; background-color: '+jin.Colour.WHITE+';">'+revision.user+'</li>';
 			}
 			
-			pageHistory += '<li style="width: 100%; list-style-type: none; list-style-image: none; text-align: center;"><a target="_blank" href="'wgServer + wgScript + '?title=' + me.pageTitle + '&action=history">- full history -</a></li>';
+			pageHistory += '<li style="width: 100%; list-style-type: none; list-style-image: none; text-align: center;"><a target="_blank" href="'+ wgServer + wgScript + '?title=' + me.pageTitle + '&action=history">- full history -</a></li>';
 			document.getElementById('igloo-hist-cont').innerHTML = pageHistory;
  
 			break;

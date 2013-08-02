@@ -925,10 +925,12 @@ iglooTime.prototype.buildInterface = function () {
 	});
 
 	$(histButton).mouseout(function () {
-		me.hist.timer = setTimeout(function() {
-			me.hist.end();
-			me.hist.timer = false; 
-		}, iglooUserSettings.histWinTimeout * 1000);
+		if (me.pageTitle !== '') {
+			me.hist.timer = setTimeout(function() {
+				me.hist.end();
+				me.hist.timer = false; 
+			}, iglooUserSettings.histWinTimeout * 1000);
+		}
 	});
 
 	$(histButton).css({

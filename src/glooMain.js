@@ -725,6 +725,7 @@ iglooRevision.prototype.retrieveUser = function () {
 			dataType: 'json',
 			context: me,
 			success: function (data) {
+				console.log(data.query.pages[data.query.pageids[0]]);
 				this.user = data.query.pages[data.query.pageids[0]].revisions[0].user;
 				userRequest = null;
 			}
@@ -933,6 +934,23 @@ iglooTime.prototype.buildInterface = function () {
 		}
 	});
 
+	var histCatcher = document.createElement('div'),
+		histDisplay = document.createElement('div'), 
+		histCont = document.createElement('ul');
+
+	histDisplay.id = "igloo-hist-display";
+	histCont.id = "igloo-hist-cont";
+	histCatcher.id = "igloo-hist-catcher";
+	
+
+	histCont.innerHTML = '';
+	histCatcher.innerHTML = '';
+	histDisplay.innerHTML = '<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>';
+	$(histDisplay).append(histCont);
+
+	$(histButton).append(histCatcher);
+	$(histButton).append(histDisplay);
+
 	$('#igloo-hist').css({
 		'position': 'relative',
 		'float': 'right',
@@ -944,14 +962,6 @@ iglooTime.prototype.buildInterface = function () {
 		'cursor': 'pointer',
 	});
 
-	var histCatcher = document.createElement('div'),
-		histDisplay = document.createElement('div'), 
-		histCont = document.createElement('ul');
-
-	histDisplay.id = "igloo-hist-display";
-	histCont.id = "igloo-hist-cont";
-	histCatcher.id = "igloo-hist-catcher";
-	
 	$('#igloo-hist-catcher').css({
 		top: '87px',
 		width: '170px',
@@ -982,14 +992,6 @@ iglooTime.prototype.buildInterface = function () {
 		'overflow-y': 'auto',
 		display: 'none'
 	});
-
-	histCont.innerHTML = '';
-	histCatcher.innerHTML = '';
-	histDisplay.innerHTML = '<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>';
-	$(histDisplay).append(histCont);
-
-	$(histButton).append(histCatcher);
-	$(histButton).append(histDisplay);
 
 	igloo.toolPane.panel.appendChild(histButton);
 };

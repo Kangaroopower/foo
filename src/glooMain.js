@@ -1019,12 +1019,12 @@ iglooHist.prototype.getHistory = function (callback, data) {
 			break;
  
 		case 1:
-			alert('here');
 			document.getElementById('igloo-hist-cont').style.display = 'block';
 			document.getElementById('igloo-hist-note').style.display = 'none';
  
 			var pageHistory = '';
-			for (var i = 0; i < data.length; i ++ ) {
+			console.error(data);
+			for (var i = 0; i < data.length; i++; ) {
 				var revision = data[i],
 					user = revision.user;
  

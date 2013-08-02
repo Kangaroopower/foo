@@ -40,7 +40,7 @@ function iglooImport( page, remote ) {
 	return script;
 }
 
-iglooImport ( 'https://raw.github.com/Kangaroopower/Igloo/master/lib/Flash.js', true);
+iglooImport ( 'https://raw.github.com/Kangaroopower/Igloo/master/lib/flash.js', true);
 iglooImport ( 'https://raw.github.com/Kangaroopower/Igloo/master/lib/jin.js', true);
 
 iglooImport ( 'https://raw.github.com/Kangaroopower/Igloo/master/src/glooMain.js', true);

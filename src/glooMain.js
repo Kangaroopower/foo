@@ -1024,7 +1024,7 @@ iglooHist.prototype.getHistory = function (callback, data) {
  
 			var pageHistory = '';
 			console.error(data);
-			for (var i = 0; i < data.length; i++; ) {
+			for (var i = 0; i < data.length; i++ ) {
 				var revision = data[i],
 					user = revision.user;
  

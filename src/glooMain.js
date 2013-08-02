@@ -923,27 +923,22 @@ iglooTime.prototype.buildInterface = function () {
 	histButton.id = "igloo-hist"
 	histButton.innerHTML = '<img src= "' + iglooUserSettings.serverLoc + 'images/igloo-hist.png">';
 
-	var histCatcher = document.createElement('div'),
-		histDisplay = document.createElement('div'), 
+	var histDisplay = document.createElement('div'), 
 		histCont = document.createElement('ul');
 
 	histDisplay.id = "igloo-hist-display";
-	histCont.id = "igloo-hist-cont";
-	histCatcher.id = "igloo-hist-catcher";
-	
+	histCont.id = "igloo-hist-cont";	
 
 	histCont.innerHTML = '';
-	histCatcher.innerHTML = '';
 	histDisplay.innerHTML = '<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>';
 	$(histDisplay).append(histCont);
 
-	$(histButton).append(histCatcher);
 	$(histButton).append(histDisplay);
 
 	igloo.toolPane.panel.appendChild(histButton);
 
 
-		$('#igloo-hist').css({
+	$('#igloo-hist').css({
 		'position': 'relative',
 		'float': 'right',
 		'width': '73px',
@@ -952,15 +947,6 @@ iglooTime.prototype.buildInterface = function () {
 		'margin-left': '5px',
 		'margin-right': '5px',
 		'cursor': 'pointer',
-	});
-
-	$('#igloo-hist-catcher').css({
-		top: '87px',
-		width: '170px',
-		height: '80px',
-		opacity: 0,
-		cursor: 'pointer',
-		display: 'none'
 	});
 
 	$('#igloo-hist-display').css({
@@ -1021,7 +1007,6 @@ iglooHist.prototype.getHistory = function (callback, data) {
 			document.getElementById('igloo-hist-cont').innerHTML = 'loading page history - wait...';
 
  			document.getElementById('igloo-hist-display').style.display = 'block';
- 			document.getElementById('igloo-hist-catcher').style.display = 'block';
 
  			// get the page history
 			var pageHist = new iglooRequest({
@@ -1034,6 +1019,7 @@ iglooHist.prototype.getHistory = function (callback, data) {
 			break;
  
 		case 1:
+			alert('here');
 			document.getElementById('igloo-hist-cont').style.display = 'block';
 			document.getElementById('igloo-hist-note').style.display = 'none';
  

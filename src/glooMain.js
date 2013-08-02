@@ -66,10 +66,11 @@ var iglooUserSettings = {
 	aivUser: 'vandal',
 	aivMessage: '* {'+'{%TEMPLATE%|%USER%}'+'} - vandalism after final warning. ~~'+'~~',
 	aivSummary: 'Reporting [[Special:Contributions/%USER%|%USER%]] - vandalism after final warning ',
-	notifyWarningDone: true
+	notifyWarningDone: true,
 
 	//History Module
-
+	histWinTimeout: 0.8,
+	maxHistory: 20
 };
 
 function getp (obj) {
@@ -285,6 +286,10 @@ function iglooMain () {
 		this.justice = new iglooReversion();
 		this.justice.buildInterface();
 		this.announce('rollback');
+
+		this.hist = new iglooTime();
+		this.hist.buildInterface();
+		this.announce('hist');
 
 		this.fireEvent('core', 'modules-loaded', true);
 	};
@@ -888,6 +893,153 @@ iglooRevision.prototype.show = function () {
 	}
 };
 
+//Ckass iglooTime- sets up iglooHist
+function iglooTime () {
+	//Temporary- overwritten on a new diff load
+	this.pageTitle = '';
+	this.hist;
+
+	//Receives info for new diff
+	var me = this;
+	igloo.hookEvent('history', 'new-diff', function (data) {
+		me.pageTitle = data.pageTitle;
+		me.hist = new iglooHist(data.pageTitle);
+	});
+}
+
+iglooTime.prototype.buildInterface = function () {
+	var histButton = document.createElement('div'), me = this;
+
+	histButton.id = "igloo-hist"
+	histButton.innerHTML = '<img src= "' + iglooUserSettings.serverLoc + 'images/igloo-hist.png">';
+
+	$(histButton).mouseover(function () {
+		if (me.pageTitle !== '') {
+			if ( me.hist.timer ) { 
+				clearTimeout ( me.hist.timer ); 
+				me.hist.timer = false; 
+			} else {
+				me.hist.getHistory();
+			}
+		}
+	});
+
+	$(histButton).mouseout(function () {
+		me.hist.timer = setTimeout(function() {
+			me.hist.stop();
+			me.hist.timer = false; 
+		}, iglooUserSettings.histWinTimeout * 1000);
+	});
+
+	$(histButton).css({
+		'position': 'relative',
+		'float': 'right',
+		'width': '73px',
+		'height': '73px',
+		'margin-top': '12px',
+		'margin-left': '5px',
+		'margin-right': '5px',
+		'cursor': 'pointer',
+	});
+
+	var histCatcher = document.createElement('div'),
+		histDisplay = document.createElement('div'), 
+		histCont = document.createElement('ul');
+
+	histDisplay.id = "igloo-hist-display";
+	histCont.id = "igloo-hist-cont";
+	histCatcher.id = "igloo-hist-catcher";
+	
+	$(histCatcher).css({
+		top: '87px',
+		width: '170px',
+		height: '80px',
+		opacity: 0,
+		cursor: 'pointer',
+		display: 'none'
+	});
+
+	$(histDisplay).css({
+		top: '93px',
+		width: '170px',
+		backgroundColor: jin.Colour.GREY,
+		border: '1px solid '+ jin.Colour.BLACK,
+		padding: '2px',
+		'font-size': '10px',
+		cursor: 'pointer',
+		display: 'none',
+	});
+
+	$(histCont).css({
+		top: '87px',
+		width: '100%',
+		height: '100%',
+		margin: '0px',
+		padding: '0px',
+		'overflow-x': 'hidden',
+		'overflow-y': 'auto',
+		display: 'none'
+	});
+
+	histCont.innerHTML = '';
+	histCatcher.innerHTML = '';
+	histDisplay.innerHTML = '<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>' + histCont;
+
+	histButton.innerHTML += histCatcher + histDisplay + '';
+
+	igloo.toolPane.panel.appendChild(histButton);
+};
+
+// Class iglooHist object handles the retrieval and display of the history of a page
+function iglooHist (pageTitle) { 
+	// timer var
+	this.timer = null;
+	this.pageTitle = pageTitle;
+}
+igloo.prototype.getHistory = function (callback, data) {
+	// the get history module retrieves a page history and displays it to the user
+	var me = this;
+
+	switch ( callback ) {
+		default: case 0:
+			document.getElementById('igloo-hist-cont').innerHTML = 'loading page history - wait...';
+
+ 			document.getElementById('igloo-hist-display').style.display = 'block';
+ 			document.getElementById('igloo-hist-catcher').style.display = 'block';
+
+ 			// get the page history
+			var pageHist = new iglooRequest({
+				module: 'getPage',
+				params: { targ: me.pageTitle, revisions: 15, properties: 'ids|user' },
+				callback: function ( data ) {  me.getHistory ( 1, data ); }
+			}, 0, true, true);
+			pageHist.run();
+
+			break;
+ 
+		case 1:
+			document.getElementById('igloo-hist-cont').style.display = 'block';
+			document.getElementById('igloo-hist-note').style.display = 'none';
+ 
+			var pageHistory = '';
+			for (var i = 0; i < data.length; i ++ ) {
+				var revision = data[i];
+				var user = revision.user;
+ 
+				pageHistory += '<li id="iglooHist_'+revision.ids.revid+'" onclick="igloo.recentChanges.load(\''+me.pageTitle.replace ('\'', '\\\'')+'\', \''+revision.user+'\', \''+revision.ids.revid+'\');" onmouseover="this.style.backgroundColor = \''+jin.Colour.LIGHT_GREY+'\';" onmouseout="this.style.backgroundColor = \''+jin.Colour.WHITE+'\';" style="cursor: pointer; width: 186px; padding: 2px; border-bottom: 1px solid #000000; list-style-type: none; list-style-image: none; marker-offset: 0px; background-color: '+jin.Colour.WHITE+';">'+revision.user+'</li>';
+			}
+			
+			pageHistory += '<li style="width: 100%; list-style-type: none; list-style-image: none; text-align: center;"><a target="_blank" href="'wgServer + wgScript + '?title=' + me.pageTitle + '&action=history">- full history -</a></li>';
+			document.getElementById('igloo-hist-cont').innerHTML = pageHistory;
+ 
+			break;
+	}
+};
+
+iglooHist.prototype.stop = function  () {
+	document.getElementById('igloo-hist-display').style.display = 'none';
+ 	document.getElementById('igloo-hist-catcher').style.display = 'none';
+};
 
 //Class iglooReversion- sets up iglooRollback
 function iglooReversion () {
@@ -958,9 +1110,9 @@ function iglooRollback (page, user, revId) {
 iglooRollback.prototype.go = function () {
 	// checks
 	if ( this.revertUser === wgUserName ) {
-		igloo.iglooControls.getPermission ( 'You are attempting to revert yourself. Ensure you wish to perform this action. igloo will not warn or report users who are reverting themselves.', function ( thisRevert ) { thisRevert.performRollback ( 0, 'cont' ); } ); 
+		//igloo.iglooControls.getPermission ( 'You are attempting to revert yourself. Ensure you wish to perform this action. igloo will not warn or report users who are reverting themselves.', function ( thisRevert ) { thisRevert.performRollback ( 0, 'cont' ); } ); 
 	} else if ( igloo.currentView.changedSinceDisplay === true ) {
-		igloo.iglooControls.getPermission ( 'The page you are viewing has changed since it was first loaded. Ensure that the change you were reverting has not already been fixed.', function ( page, user ) { thisRevert.performRollback ( page, user ); } ); 
+		//igloo.iglooControls.getPermission ( 'The page you are viewing has changed since it was first loaded. Ensure that the change you were reverting has not already been fixed.', function ( page, user ) { thisRevert.performRollback ( page, user ); } ); 
 	} else { 
 		this.performRollback ( this.pageTitle, this.revertUser ); 
 	}

@@ -853,6 +853,10 @@ iglooRevision.prototype.display = function () {
 		$(igloo.diffContainer.panel).find('*').remove();
 		
 		//Append history module
+		igloo.past.histCont.innerHTML = '';
+		$(igloo.past.histDisplay).html('<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>');
+
+		$(igloo.past.histDisplay).append(igloo.past.histCont);
 		igloo.diffContainer.panel.appendChild(igloo.past.histDisplay)
 
 		// Append new content.

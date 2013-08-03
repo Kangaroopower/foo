@@ -1023,9 +1023,7 @@ iglooHist.prototype.getHistory = function (callback, data) {
 			document.getElementById('igloo-hist-note').style.display = 'none';
  
 			var pageHistory = '';
-			console.error(data);
-			for (var i = 0; i < data.length; i++ ) {
-				alert('here');
+			for (var i in data ) {
 				var revision = data[i],
 					user = revision.user;
  

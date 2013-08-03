@@ -938,6 +938,8 @@ iglooActions.prototype.loadPage = function (page, revId) {
 		}
 	}, 0, true);
 	getRev.run();
+	document.getElementById('igloo-hist-display').style.display = 'none';
+
 };
 
 //Class iglooPast- sets up iglooHist
@@ -1076,7 +1078,7 @@ iglooHist.prototype.getHistory = function (callback, data) {
 		default: case 0:
 			document.getElementById('igloo-hist-cont').innerHTML = 'loading page history - wait...';
 
- 			document.getElementById('igloo-hist-display').style.display = 'block';
+			document.getElementById('igloo-hist-display').style.display = 'block';
 
  			// get the page history
 			var pageHist = new iglooRequest({

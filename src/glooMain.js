@@ -826,12 +826,16 @@ iglooRevision.prototype.display = function () {
 			pageTitle: ''
 		});
 	} else if (displayWhat === 'diff') {
-		var table = document.createElement('table'), h2 = document.createElement('h2'), me = this;
+		var table = document.createElement('table'), 
+			h2 = document.createElement('h2'), 
+			me = this, 
+			same = document.createElement('div');
 
 		h2.id = 'iglooPageTitle';
 
 		table.innerHTML = '<tr><td id="iglooDiffCol1" colspan="2"> </td><td id="iglooDiffCol2" colspan="2"> </td></tr>' + this.diffContent;
 		h2.innerHTML = this.pageTitle;
+		same.innerHTML = '<br/><span style="text-align:center">(No Change)</span><br/>'
 
 		// Style display element.
 		// TODO
@@ -858,7 +862,11 @@ iglooRevision.prototype.display = function () {
 
 		// Append new content.
 		igloo.diffContainer.panel.appendChild(h2);
-		igloo.diffContainer.panel.appendChild(table);
+		if (this.diffContent === "") {
+			igloo.diffContainer.panel.appendChild(same);
+		} else {
+			igloo.diffContainer.panel.appendChild(table);
+		}
 
 		//Alert rollback as to page info
 		igloo.fireEvent('rollback','new-diff', {

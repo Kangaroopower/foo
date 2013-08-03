@@ -853,7 +853,7 @@ iglooRevision.prototype.display = function () {
 		$(igloo.diffContainer.panel).find('*').remove();
 		
 		//Append history module
-		igloo.diffContainer.panel.appendChild(igloo.past.histDisplay)
+		//igloo.diffContainer.panel.appendChild(igloo.past.histDisplay)
 
 		// Append new content.
 		igloo.diffContainer.panel.appendChild(h2);
@@ -971,6 +971,7 @@ iglooTime.prototype.buildInterface = function () {
 	$(this.histDisplay).append(this.histCont);
 
 	igloo.toolPane.panel.appendChild(histButton);
+	igloo.canvas.canvasBase.appendChild(this.histDisplay);
 
 	$('#igloo-hist').css({
 		'position': 'relative',
@@ -984,7 +985,7 @@ iglooTime.prototype.buildInterface = function () {
 	});
 
 	$('#igloo-hist-display').css({
-		top: '3px',
+		top: '123px',
 		width: '170px',
 		backgroundColor: jin.Colour.GREY,
 		border: '1px solid '+ jin.Colour.BLACK,
@@ -997,7 +998,7 @@ iglooTime.prototype.buildInterface = function () {
 	});
 
 	$('#igloo-hist-cont').css({
-		top: '9px',
+		top: '129px',
 		width: '100%',
 		height: '100%',
 		margin: '0px',

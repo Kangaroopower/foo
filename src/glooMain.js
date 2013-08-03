@@ -971,7 +971,7 @@ iglooTime.prototype.buildInterface = function () {
 		display: 'none'
 	});
 
-	$('#igloo-hist img').mouseover(function () {
+	$('#igloo-hist').mouseover(function () {
 		if (me.pageTitle !== '') {
 			if ( me.hist.timer ) { 
 				clearTimeout ( me.hist.timer ); 
@@ -982,7 +982,7 @@ iglooTime.prototype.buildInterface = function () {
 		}
 	});
 
-	$('#igloo-hist img').mouseout(function () {
+	$('#igloo-hist').mouseout(function () {
 		if (me.pageTitle !== '') {
 			me.hist.timer = setTimeout(function() {
 				me.hist.end();

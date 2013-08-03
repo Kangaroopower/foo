@@ -136,6 +136,7 @@ function iglooMain () {
 		this.recentChanges = new iglooRecentChanges();
 		this.contentManager = new iglooContentManager();
 		this.statusLog = new iglooStatus();
+		this.actions = new iglooActions();
 
 		this.recentChanges.setTickTime(2000);
 		this.statusLog.buildInterface();
@@ -913,8 +914,9 @@ function iglooActions () {
 	//Placeholder
 }
 
-iglooActions.prototype.loadPage = function (page, user, revId) {
+iglooActions.prototype.loadPage = function (page, revId) {
 	var me = this;
+	revId = parseInt(revId);
 	var getRev = new iglooRequest({
 		url: iglooConfiguration.api,
 		data: { format: 'json', action: 'query', prop: 'revisions', revids: revId, rvprop: 'ids|user', indexpageids: 1},
@@ -1091,15 +1093,10 @@ iglooHist.prototype.getHistory = function (callback, data) {
 			document.getElementById('igloo-hist-note').style.display = 'none';
  
 			var pageHistory = '';
-			for (var i in data ) {
-				var revision = data[i],
-					user = revision.user;
+			for (var i in data) {
+				var rev = data[i],  = revision.user;
  
-				pageHistory += '<li id="iglooHist_'+revision.ids.revid+'" onmouseover="this.style.backgroundColor = \''+jin.Colour.LIGHT_GREY+'\';" onmouseout="this.style.backgroundColor = \''+jin.Colour.WHITE+'\';" style="cursor: pointer; width: 186px; padding: 2px; border-bottom: 1px solid #000000; list-style-type: none; list-style-image: none; marker-offset: 0px; background-color: '+jin.Colour.WHITE+';">'+revision.user+'</li>';
-				$('#iglooHist_' + revision.ids.revid).click(function () {
-					var actions = new iglooActions();
-					actions.loadPage(me.pageTitle.replace ('\'', '\\\''), revision.user, revision.ids.revid);
-				});
+				pageHistory += '<li id="iglooHist_'+revision.ids.revid+'" onclick="igloo.actions.loadPage(\''+me.pageTitle.replace('\'', '\\\'')+'\',  \''+rev.ids.revid+'\');" onmouseover="this.style.backgroundColor = \''+jin.Colour.LIGHT_GREY+'\';" onmouseout="this.style.backgroundColor = \''+jin.Colour.WHITE+'\';" style="cursor: pointer; width: 186px; padding: 2px; border-bottom: 1px solid #000000; list-style-type: none; list-style-image: none; marker-offset: 0px; background-color: '+jin.Colour.WHITE+';">'+revision.user+'</li>';
 			}
 			
 			pageHistory += '<li style="width: 100%; list-style-type: none; list-style-image: none; text-align: center;"><a target="_blank" href="'+ wgServer + wgScript + '?title=' + me.pageTitle + '&action=history">- full history -</a></li>';

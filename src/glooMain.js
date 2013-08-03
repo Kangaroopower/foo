@@ -962,7 +962,7 @@ iglooTime.prototype.buildInterface = function () {
 	this.histDisplay = document.createElement('div');
 	var histCont = document.createElement('ul');
 
-	histDisplay.id = "igloo-hist-display";
+	this.histDisplay.id = "igloo-hist-display";
 	histCont.id = "igloo-hist-cont";	
 
 	histCont.innerHTML = '';

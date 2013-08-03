@@ -947,6 +947,7 @@ function iglooTime () {
 	this.pageTitle = '';
 	this.hist;
 	this.histDisplay;
+	this.histCont;
 
 	//Receives info for new diff
 	var me = this;
@@ -963,19 +964,19 @@ iglooTime.prototype.buildInterface = function () {
 	histButton.innerHTML = '<img src= "' + iglooUserSettings.serverLoc + 'images/igloo-hist.png">';
 
 	this.histDisplay = document.createElement('div');
-	var histCont = document.createElement('ul');
+	this.histCont = document.createElement('ul');
 
 	this.histDisplay.id = "igloo-hist-display";
-	histCont.id = "igloo-hist-cont";	
+	this.histCont.id = "igloo-hist-cont";	
 
-	histCont.innerHTML = '';
-	this.histDisplay.innerHTML = '<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>';
-	$(this.histDisplay).append(histCont);
+	this.histCont.innerHTML = '';
+	$(this.histDisplay).html('<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>');
+	$(this.histDisplay).append(this.histCont);
 
 	//$(histButton).append(histDisplay);
 
 	igloo.toolPane.panel.appendChild(histButton);
-	igloo.diffContainer.panel.appendChild(this.histDisplay);
+	//igloo.diffContainer.panel.appendChild(this.histDisplay);
 
 	$('#igloo-hist').css({
 		'position': 'relative',

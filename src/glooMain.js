@@ -287,8 +287,8 @@ function iglooMain () {
 		this.justice.buildInterface();
 		this.announce('rollback');
 
-		this.hist = new iglooTime();
-		this.hist.buildInterface();
+		this.past = new iglooTime();
+		this.past.buildInterface();
 		this.announce('hist');
 
 		this.fireEvent('core', 'modules-loaded', true);
@@ -813,6 +813,9 @@ iglooRevision.prototype.display = function () {
 		// Append new content.
 		igloo.diffContainer.panel.appendChild(div);
 
+		//Append history module
+		igloo.diffContainer.panel.appendChild(igloo.past.histDisplay)
+
 		//You can't rollback new pages
 		igloo.fireEvent('rollback','new-diff', {
 			pageTitle: '',
@@ -940,6 +943,7 @@ function iglooTime () {
 	//Temporary- overwritten on a new diff load
 	this.pageTitle = '';
 	this.hist;
+	this.histDisplay;
 
 	//Receives info for new diff
 	var me = this;
@@ -955,20 +959,20 @@ iglooTime.prototype.buildInterface = function () {
 	histButton.id = "igloo-hist"
 	histButton.innerHTML = '<img src= "' + iglooUserSettings.serverLoc + 'images/igloo-hist.png">';
 
-	var histDisplay = document.createElement('div'), 
-		histCont = document.createElement('ul');
+	this.histDisplay = document.createElement('div');
+	var histCont = document.createElement('ul');
 
 	histDisplay.id = "igloo-hist-display";
 	histCont.id = "igloo-hist-cont";	
 
 	histCont.innerHTML = '';
-	histDisplay.innerHTML = '<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>';
-	$(histDisplay).append(histCont);
+	this.histDisplay.innerHTML = '<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>';
+	$(this.histDisplay).append(histCont);
 
 	//$(histButton).append(histDisplay);
 
 	igloo.toolPane.panel.appendChild(histButton);
-	igloo.diffContainer.panel.appendChild(histDisplay);
+	igloo.diffContainer.panel.appendChild(this.histDisplay);
 
 	$('#igloo-hist').css({
 		'position': 'relative',

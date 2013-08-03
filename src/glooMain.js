@@ -853,7 +853,7 @@ iglooRevision.prototype.display = function () {
 		$(igloo.diffContainer.panel).find('*').remove();
 		
 		//Append history module
-		//igloo.diffContainer.panel.appendChild(igloo.past.histDisplay)
+		igloo.diffContainer.panel.appendChild(igloo.past.histDisplay)
 
 		// Append new content.
 		igloo.diffContainer.panel.appendChild(h2);
@@ -966,11 +966,6 @@ iglooTime.prototype.buildInterface = function () {
 	this.histDisplay.id = "igloo-hist-display";
 	this.histCont.id = "igloo-hist-cont";	
 
-	this.histCont.innerHTML = '';
-	$(this.histDisplay).html('<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>');
-
-	igloo.toolPane.panel.appendChild(histButton);
-
 	$('#igloo-hist').css({
 		'position': 'relative',
 		'float': 'right',
@@ -983,7 +978,7 @@ iglooTime.prototype.buildInterface = function () {
 	});
 
 	$(this.histDisplay).css({
-		top: '123px',
+		top: '3px',
 		width: '170px',
 		backgroundColor: jin.Colour.GREY,
 		border: '1px solid '+ jin.Colour.BLACK,
@@ -992,11 +987,12 @@ iglooTime.prototype.buildInterface = function () {
 		cursor: 'pointer',
 		display: 'none',
 		'float':'right',
-		'position':'absolute'
+		'position':'absolute',
+		'z-index': 
 	});
 
 	$(this.histCont).css({
-		top: '129px',
+		top: '9px',
 		width: '100%',
 		height: '100%',
 		margin: '0px',
@@ -1004,8 +1000,7 @@ iglooTime.prototype.buildInterface = function () {
 		'overflow-x': 'hidden',
 		'overflow-y': 'auto',
 		display: 'none',
-		'float':'right',
-		'position':'absolute'
+		'float':'right'
 	});
 
 	$('#igloo-hist').mouseover(function () {
@@ -1028,8 +1023,12 @@ iglooTime.prototype.buildInterface = function () {
 		}
 	});
 
+	this.histCont.innerHTML = '';
+	$(this.histDisplay).html('<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>');
+
 	$(this.histDisplay).append(this.histCont);
-	igloo.canvas.canvasBase.appendChild(this.histDisplay);
+	igloo.toolPane.panel.appendChild(histButton);
+	//igloo.canvas.canvasBase.appendChild(this.histDisplay);
 };
 
 // Class iglooHist object handles the retrieval and display of the history of a page

@@ -1025,6 +1025,7 @@ iglooHist.prototype.getHistory = function (callback, data) {
 			var pageHistory = '';
 			console.error(data);
 			for (var i = 0; i < data.length; i++ ) {
+				alert('here');
 				var revision = data[i],
 					user = revision.user;
  
@@ -1312,7 +1313,6 @@ iglooRollback.prototype.warnUser = function( callback, details ) {
 				module: 'edit',
 				params: { targ: userPage, isMinor: false, text: message, summary: summary, where: 'appendtext' },
 				callback: function ( data ) {
-					console.log("HEEERREE");
 					if ( iglooUserSettings.notifyWarningDone === true )
 						igloo.statusLog.addStatus( 'Successfully issued a level <strong>' + thisRevert.warningLevel + '</strong> warning to <strong>' + thisRevert.revertUser + '</strong> for vandalism on <strong>' + thisRevert.pageTitle + '</strong>!' ); 
 				}

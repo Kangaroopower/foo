@@ -1074,7 +1074,7 @@ iglooHist.prototype.getHistory = function (callback, data) {
 			}
 			
 			pageHistory += '<li style="width: 100%; list-style-type: none; list-style-image: none; text-align: center;"><a target="_blank" href="'+ wgServer + wgScript + '?title=' + me.pageTitle + '&action=history">- full history -</a></li>';
-			document.getElementById('igloo-hist-cont').innerHTML = pageHistory;
+			$(igloo.past.histCont).html(pageHistory);
  
 			break;
 	}

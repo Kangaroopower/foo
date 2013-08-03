@@ -968,10 +968,8 @@ iglooTime.prototype.buildInterface = function () {
 
 	this.histCont.innerHTML = '';
 	$(this.histDisplay).html('<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>');
-	$(this.histDisplay).append(this.histCont);
 
 	igloo.toolPane.panel.appendChild(histButton);
-	igloo.canvas.canvasBase.appendChild(this.histDisplay);
 
 	$('#igloo-hist').css({
 		'position': 'relative',
@@ -984,7 +982,7 @@ iglooTime.prototype.buildInterface = function () {
 		'cursor': 'pointer'
 	});
 
-	$('#igloo-hist-display').css({
+	$(this.histDisplay).css({
 		top: '123px',
 		width: '170px',
 		backgroundColor: jin.Colour.GREY,
@@ -997,7 +995,7 @@ iglooTime.prototype.buildInterface = function () {
 		'position':'absolute'
 	});
 
-	$('#igloo-hist-cont').css({
+	$(this.histCont).css({
 		top: '129px',
 		width: '100%',
 		height: '100%',
@@ -1029,6 +1027,9 @@ iglooTime.prototype.buildInterface = function () {
 			}, iglooUserSettings.histWinTimeout * 1000);
 		}
 	});
+
+	$(this.histDisplay).append(this.histCont);
+	igloo.canvas.canvasBase.appendChild(this.histDisplay);
 };
 
 // Class iglooHist object handles the retrieval and display of the history of a page

@@ -287,7 +287,7 @@ function iglooMain () {
 		this.justice.buildInterface();
 		this.announce('rollback');
 
-		this.past = new iglooTime();
+		this.past = new iglooPast();
 		this.past.buildInterface();
 		this.announce('hist');
 
@@ -853,11 +853,7 @@ iglooRevision.prototype.display = function () {
 		$(igloo.diffContainer.panel).find('*').remove();
 		
 		//Append history module
-		igloo.past.histCont.innerHTML = '';
-		$(igloo.past.histDisplay).html('<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>');
-
-		$(igloo.past.histDisplay).append(igloo.past.histCont);
-		igloo.diffContainer.panel.appendChild(igloo.past.histDisplay)
+		igloo.past.loadModule();
 
 		// Append new content.
 		igloo.diffContainer.panel.appendChild(h2);
@@ -942,8 +938,8 @@ iglooActions.prototype.loadPage = function (page, user, revId) {
 	getRev.run();
 };
 
-//Class iglooTime- sets up iglooHist
-function iglooTime () {
+//Class iglooPast- sets up iglooHist
+function iglooPast () {
 	//Temporary- overwritten on a new diff load
 	this.pageTitle = '';
 	this.hist;
@@ -958,7 +954,7 @@ function iglooTime () {
 	});
 }
 
-iglooTime.prototype.buildInterface = function () {
+iglooPast.prototype.buildInterface = function () {
 	var histButton = document.createElement('div'), me = this;
 
 	histButton.id = "igloo-hist"
@@ -1025,7 +1021,7 @@ iglooTime.prototype.buildInterface = function () {
 		}
 	});
 
-	$('#igloo-hist, #igloo-hist-display').mouseout(function () {
+	$('#igloo-hist').mouseout(function () {
 		if (me.pageTitle !== '') {
 			me.hist.timer = setTimeout(function() {
 				me.hist.end();
@@ -1033,6 +1029,24 @@ iglooTime.prototype.buildInterface = function () {
 			}, iglooUserSettings.histWinTimeout * 1000);
 		}
 	});
+};
+
+iglooPast.prototype.loadModule = function () {
+	var me = this;
+	this.histCont.innerHTML = '';
+	$(this.histDisplay).html('<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>');
+
+	$(this.histDisplay).append(this.histCont);
+
+	$(this.histDisplay).mouseout(function () {
+		if (me.pageTitle !== '') {
+			me.hist.timer = setTimeout(function() {
+				me.hist.end();
+				me.hist.timer = false; 
+			}, iglooUserSettings.histWinTimeout * 1000);
+		}
+	});
+	igloo.diffContainer.panel.appendChild(this.histDisplay);
 };
 
 // Class iglooHist object handles the retrieval and display of the history of a page

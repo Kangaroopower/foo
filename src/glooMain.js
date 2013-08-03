@@ -938,8 +938,6 @@ iglooActions.prototype.loadPage = function (page, revId) {
 		}
 	}, 0, true);
 	getRev.run();
-	document.getElementById('igloo-hist-display').style.display = 'none';
-
 };
 
 //Class iglooPast- sets up iglooHist

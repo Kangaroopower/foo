@@ -986,7 +986,7 @@ iglooTime.prototype.buildInterface = function () {
 	$('#igloo-hist').mouseout(function () {
 		if (me.pageTitle !== '') {
 			me.hist.timer = setTimeout(function() {
-				me.hist.end();
+				document.getElementById('igloo-hist-display').style.display = 'none';
 				me.hist.timer = false; 
 			}, iglooUserSettings.histWinTimeout * 1000);
 		}
@@ -1039,11 +1039,6 @@ iglooHist.prototype.getHistory = function (callback, data) {
  
 			break;
 	}
-};
-
-iglooHist.prototype.end = function  () {
-	document.getElementById('igloo-hist-display').style.display = 'none';
- 	document.getElementById('igloo-hist-catcher').style.display = 'none';
 };
 
 //Class iglooReversion- sets up iglooRollback

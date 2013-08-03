@@ -814,7 +814,7 @@ iglooRevision.prototype.display = function () {
 		igloo.diffContainer.panel.appendChild(div);
 
 		//Append history module
-		igloo.diffContainer.panel.appendChild(igloo.past.histDisplay)
+		igloo.diffContainer.panel.appendChild(igloo.past.histDisplay);
 
 		//You can't rollback new pages
 		igloo.fireEvent('rollback','new-diff', {
@@ -858,6 +858,9 @@ iglooRevision.prototype.display = function () {
 		// Append new content.
 		igloo.diffContainer.panel.appendChild(h2);
 		igloo.diffContainer.panel.appendChild(table);
+
+		//Append history module
+		igloo.diffContainer.panel.appendChild(igloo.past.histDisplay)
 
 		//Alert rollback as to page info
 		igloo.fireEvent('rollback','new-diff', {

@@ -968,7 +968,7 @@ iglooTime.prototype.buildInterface = function () {
 	//$(histButton).append(histDisplay);
 
 	igloo.toolPane.panel.appendChild(histButton);
-	igloo.content.panel.appendChild(histDisplay);
+	igloo.diffContainer.panel.appendChild(histDisplay);
 
 	$('#igloo-hist').css({
 		'position': 'relative',

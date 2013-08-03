@@ -946,7 +946,7 @@ iglooTime.prototype.buildInterface = function () {
 		'margin-top': '12px',
 		'margin-left': '5px',
 		'margin-right': '5px',
-		'cursor': 'pointer',
+		'cursor': 'pointer'
 	});
 
 	$('#igloo-hist-display').css({
@@ -958,6 +958,7 @@ iglooTime.prototype.buildInterface = function () {
 		'font-size': '10px',
 		cursor: 'pointer',
 		display: 'none',
+		'float':'right'
 	});
 
 	$('#igloo-hist-cont').css({
@@ -973,7 +974,7 @@ iglooTime.prototype.buildInterface = function () {
 
 	$('#igloo-hist').mouseover(function () {
 		if (me.pageTitle !== '') {
-			if ( me.hist.timer ) { 
+			if ( !!me.hist.timer === false ) { 
 				clearTimeout ( me.hist.timer ); 
 				me.hist.timer = false; 
 			} else {

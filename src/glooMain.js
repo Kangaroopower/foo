@@ -760,6 +760,8 @@ iglooRevision.prototype.loadRevision = function (newData) {
 iglooRevision.prototype.loadDiff = function () {
 	var me = this;
 
+	igloo.justice.reversionEnabled = 'pause';
+
 	if (this.diffRequest === null) {
 		console.log('Attempted to show a diff, but we had no data so has to load it.');
 		this.diffRequest = new iglooRequest({
@@ -903,7 +905,37 @@ iglooRevision.prototype.show = function () {
 	}
 };
 
-//Ckass iglooTime- sets up iglooHist
+//Class iglooActions- misc actions
+function iglooActions () {
+	//Placeholder
+}
+
+iglooActions.prototype.loadPage = function (page, user, revId) {
+	var me = this;
+	var getRev = new iglooRequest({
+		url: iglooConfiguration.api,
+		data: { format: 'json', action: 'query', prop: 'revisions', revids: revId, rvprop: 'ids|user', indexpageids: 1},
+		dataType: 'json',
+		context: me,
+		success: function (data) {
+			var info = data.query.pages[data.query.pageids[0]], res = {}, p;
+			res.title = page
+			res.ns = info.ns;
+			res.old_revid = info.revisions[0].parentid;
+			res.revid = revId;
+			if (info.revisions[0].parentid === 0) {
+				res.type = 'new';
+			} else {
+				res.type = 'edit';
+			}
+			p = new iglooPage(new iglooRevision(res));
+			p.display();
+		}
+	}, 0, true);
+	getRev.run();
+};
+
+//Class iglooTime- sets up iglooHist
 function iglooTime () {
 	//Temporary- overwritten on a new diff load
 	this.pageTitle = '';
@@ -999,6 +1031,7 @@ function iglooHist (pageTitle) {
 	this.timer = null;
 	this.pageTitle = pageTitle;
 }
+
 iglooHist.prototype.getHistory = function (callback, data) {
 	// the get history module retrieves a page history and displays it to the user
 	var me = this;
@@ -1029,9 +1062,10 @@ iglooHist.prototype.getHistory = function (callback, data) {
 					user = revision.user;
  
 				pageHistory += '<li id="iglooHist_'+revision.ids.revid+'" onmouseover="this.style.backgroundColor = \''+jin.Colour.LIGHT_GREY+'\';" onmouseout="this.style.backgroundColor = \''+jin.Colour.WHITE+'\';" style="cursor: pointer; width: 186px; padding: 2px; border-bottom: 1px solid #000000; list-style-type: none; list-style-image: none; marker-offset: 0px; background-color: '+jin.Colour.WHITE+';">'+revision.user+'</li>';
-				//$('#iglooHist_' + revision.ids.revid).click(function () {
-			//		igloo.recentChanges.load(me.pageTitle.replace ('\'', '\\\''), revision.user, revision.ids.revid);
-			//	});
+				$('#iglooHist_' + revision.ids.revid).click(function () {
+					var actions = new iglooActions();
+					actions.loadPage(me.pageTitle.replace ('\'', '\\\''), revision.user, revision.ids.revid);
+				});
 			}
 			
 			pageHistory += '<li style="width: 100%; list-style-type: none; list-style-image: none; text-align: center;"><a target="_blank" href="'+ wgServer + wgScript + '?title=' + me.pageTitle + '&action=history">- full history -</a></li>';

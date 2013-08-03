@@ -1036,8 +1036,16 @@ iglooPast.prototype.loadModule = function () {
 	this.histCont.innerHTML = '';
 	$(this.histDisplay).html('<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>');
 
-	$(this.histDisplay).append(this.histCont);
-
+	$(this.histDisplay).mouseover(function () {
+		if (me.pageTitle !== '') {
+			if ( !!me.hist.timer === true ) { 
+				clearTimeout ( me.hist.timer ); 
+				me.hist.timer = false; 
+			} else {
+				me.hist.getHistory();
+			}
+		}
+	});
 	$(this.histDisplay).mouseout(function () {
 		if (me.pageTitle !== '') {
 			me.hist.timer = setTimeout(function() {
@@ -1046,6 +1054,8 @@ iglooPast.prototype.loadModule = function () {
 			}, iglooUserSettings.histWinTimeout * 1000);
 		}
 	});
+
+	$(this.histDisplay).append(this.histCont);
 	igloo.diffContainer.panel.appendChild(this.histDisplay);
 };
 

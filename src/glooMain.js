@@ -966,7 +966,7 @@ iglooTime.prototype.buildInterface = function () {
 	this.histDisplay.id = "igloo-hist-display";
 	this.histCont.id = "igloo-hist-cont";	
 
-	$('#igloo-hist').css({
+	$(histButton).css({
 		'position': 'relative',
 		'float': 'right',
 		'width': '73px',
@@ -980,7 +980,7 @@ iglooTime.prototype.buildInterface = function () {
 	$(this.histDisplay).css({
 		top: '3px',
 		width: '170px',
-		backgroundColor: jin.Colour.GREY,
+		backgroundColor: '' +jin.Colour.GREY,
 		border: '1px solid '+ jin.Colour.BLACK,
 		padding: '2px',
 		'font-size': '10px',
@@ -988,7 +988,7 @@ iglooTime.prototype.buildInterface = function () {
 		display: 'none',
 		'float':'right',
 		'position':'absolute',
-		'z-index': 
+		'z-index': 999999999999
 	});
 
 	$(this.histCont).css({
@@ -1002,6 +1002,12 @@ iglooTime.prototype.buildInterface = function () {
 		display: 'none',
 		'float':'right'
 	});
+
+	this.histCont.innerHTML = '';
+	$(this.histDisplay).html('<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>');
+
+	$(this.histDisplay).append(this.histCont);
+	igloo.toolPane.panel.appendChild(histButton);
 
 	$('#igloo-hist').mouseover(function () {
 		if (me.pageTitle !== '') {
@@ -1022,13 +1028,6 @@ iglooTime.prototype.buildInterface = function () {
 			}, iglooUserSettings.histWinTimeout * 1000);
 		}
 	});
-
-	this.histCont.innerHTML = '';
-	$(this.histDisplay).html('<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>');
-
-	$(this.histDisplay).append(this.histCont);
-	igloo.toolPane.panel.appendChild(histButton);
-	//igloo.canvas.canvasBase.appendChild(this.histDisplay);
 };
 
 // Class iglooHist object handles the retrieval and display of the history of a page

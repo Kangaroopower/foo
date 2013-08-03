@@ -965,10 +965,10 @@ iglooTime.prototype.buildInterface = function () {
 	histDisplay.innerHTML = '<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>';
 	$(histDisplay).append(histCont);
 
-	$(histButton).append(histDisplay);
+	//$(histButton).append(histDisplay);
 
 	igloo.toolPane.panel.appendChild(histButton);
-
+	igloo.content.panel.appendChild(histDisplay);
 
 	$('#igloo-hist').css({
 		'position': 'relative',
@@ -1015,7 +1015,7 @@ iglooTime.prototype.buildInterface = function () {
 		}
 	});
 
-	$('#igloo-hist').mouseout(function () {
+	$('#igloo-hist, #igloo-hist-display').mouseout(function () {
 		if (me.pageTitle !== '') {
 			me.hist.timer = setTimeout(function() {
 				me.hist.end();

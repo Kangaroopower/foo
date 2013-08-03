@@ -813,9 +813,6 @@ iglooRevision.prototype.display = function () {
 		// Append new content.
 		igloo.diffContainer.panel.appendChild(div);
 
-		//Append history module
-		igloo.diffContainer.panel.appendChild(igloo.past.histDisplay);
-
 		//You can't rollback new pages
 		igloo.fireEvent('rollback','new-diff', {
 			pageTitle: '',
@@ -855,12 +852,12 @@ iglooRevision.prototype.display = function () {
 		// Clear current display.
 		$(igloo.diffContainer.panel).find('*').remove();
 		
+		//Append history module
+		igloo.diffContainer.panel.appendChild(igloo.past.histDisplay)
+
 		// Append new content.
 		igloo.diffContainer.panel.appendChild(h2);
 		igloo.diffContainer.panel.appendChild(table);
-
-		//Append history module
-		igloo.diffContainer.panel.appendChild(igloo.past.histDisplay)
 
 		//Alert rollback as to page info
 		igloo.fireEvent('rollback','new-diff', {
@@ -973,10 +970,7 @@ iglooTime.prototype.buildInterface = function () {
 	$(this.histDisplay).html('<div id="igloo-hist-note" style="width: 100%;">loading page history - wait...</div>');
 	$(this.histDisplay).append(this.histCont);
 
-	//$(histButton).append(histDisplay);
-
 	igloo.toolPane.panel.appendChild(histButton);
-	//igloo.diffContainer.panel.appendChild(this.histDisplay);
 
 	$('#igloo-hist').css({
 		'position': 'relative',
@@ -990,7 +984,7 @@ iglooTime.prototype.buildInterface = function () {
 	});
 
 	$('#igloo-hist-display').css({
-		top: '93px',
+		top: '3px',
 		width: '170px',
 		backgroundColor: jin.Colour.GREY,
 		border: '1px solid '+ jin.Colour.BLACK,
@@ -998,18 +992,21 @@ iglooTime.prototype.buildInterface = function () {
 		'font-size': '10px',
 		cursor: 'pointer',
 		display: 'none',
-		'float':'right'
+		'float':'right',
+		'position':'absolute'
 	});
 
 	$('#igloo-hist-cont').css({
-		top: '87px',
+		top: '9px',
 		width: '100%',
 		height: '100%',
 		margin: '0px',
 		padding: '0px',
 		'overflow-x': 'hidden',
 		'overflow-y': 'auto',
-		display: 'none'
+		display: 'none',
+		'float':'right',
+		'position':'absolute'
 	});
 
 	$('#igloo-hist').mouseover(function () {

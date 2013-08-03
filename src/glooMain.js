@@ -992,7 +992,8 @@ iglooTime.prototype.buildInterface = function () {
 		display: 'none',
 		'float':'right',
 		'position':'absolute',
-		'z-index': 999999999999
+		'z-index': 999999999999,
+		'left': '75%'
 	});
 
 	$(this.histCont).css({

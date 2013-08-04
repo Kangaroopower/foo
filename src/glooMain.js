@@ -1076,7 +1076,7 @@ function iglooArchive () {
 	this.goForward = function(count) {
 		count = parseInt(count);
 
-		if (this.archivePosition <= 0) return false;
+		if (this.archivePosition < 0) return false;
 		if (!count) count = 1;
  
 		if ((this.archivePosition + count) > (this.archives.length - 1)) {
@@ -1601,12 +1601,6 @@ iglooRollback.prototype.reportUser = function( callback, details ) {
 
 			break;
 	}
-};
-
-iglooRollback.prototype.revert = function () {
-	var pop = new iglooPopup('asdasd');
-	pop.show();
-	console.log('IGLOO REVERT: PAGE: ' + this.pageTitle + ' USER: ' + this.user + 'REV: ' + this.revId);
 };
 
 //iglooPopup - creates a Popup

@@ -1190,7 +1190,7 @@ iglooPast.prototype.buildInterface = function () {
 	});
 
 	$(this.histDisplay).css({
-		top: '3px',
+		top: '103px',
 		width: '170px',
 		backgroundColor: '' +jin.Colour.GREY,
 		border: '1px solid '+ jin.Colour.BLACK,
@@ -1199,9 +1199,9 @@ iglooPast.prototype.buildInterface = function () {
 		cursor: 'pointer',
 		display: 'none',
 		'float':'right',
-		'position':'absolute',
+		'position':'fixed',
 		'z-index': 999999999999,
-		'left': '75%'
+		'left': '80%'
 	});
 
 	$(this.histCont).css({

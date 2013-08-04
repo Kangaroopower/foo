@@ -1009,8 +1009,7 @@ function iglooArchive () {
 			if ( this.canAddtoArchives == true ) {
 				// first, remove any history between the current position and 0.
 				if ( this.archivePosition > 0 ) {
-					var temp = this.archives.slice(this.archivePosition);
-					this.archives = temp;
+					this.archives = this.archives.slice(this.archivePosition);
 					this.archivePosition = 0;
 				}
 
@@ -1021,9 +1020,10 @@ function iglooArchive () {
 					revID: revID
 				};
 
-				this.archives.shift(histEntry);
-				if (this.archives > iglooUserSettings.maxArchives) {
-					this.archives.length = iglooUserSettings.maxArchives;
+				this.archives.push(histEntry);
+				if (this.archives.length > iglooUserSettings.maxArchives) {
+					var toSlice = (this.archives.length - iglooUserSettings.maxArchives) - 1;
+					this.archives = this.archives.slice(toSlice);
 				}
 			}
 		}
@@ -1042,11 +1042,11 @@ function iglooArchive () {
 			backButton.src = backUrl + grey + filetype; 
 			forwardButton.src = forwardUrl + grey + filetype; 
 		} else if ( (this.archives.length > 1) && (this.archivePosition == 0) ) { 
-			backButton.src = backUrl + filetype; 
-			forwardButton.src = forwardUrl + grey + filetype; 
-		} else if ( (this.archives.length > 1) && (this.archivePosition == (this.archives.length - 1)) ) { 
 			backButton.src = backUrl + grey + filetype; 
 			forwardButton.src = forwardUrl + filetype; 
+		} else if ( (this.archives.length > 1) && (this.archivePosition == (this.archives.length - 1)) ) { 
+			backButton.src = backUrl + filetype; 
+			forwardButton.src = forwardUrl + grey + filetype; 
 		} else { 
 			backButton.src = backUrl + filetype; 
 			forwardButton.src = forwardUrl + filetype; 
@@ -1056,36 +1056,41 @@ function iglooArchive () {
 	this.goBack = function (count) {
 		count = parseInt(count);
 
-		if ( this.archives.length <= 0 ) return false;
-		if ( ! count ) count = 1;
-		if ( ( this.archivePosition + count ) > this.archives.length ) {
-			count = this.archives.length;
+		if (this.archives.length <= 0) return false;
+		if (!count) count = 1;
+
+		if ((this.archivePosition - count) < 0) { 
+			this.archivePosition = 0; 
+		} else {
+			this.archivePosition -= count; 
 		}
- 
-		this.archivePosition += count;
+
 		var doView = this.archives [this.archivePosition];
  
 		this.canAddtoArchives = false;
 		igloo.actions.loadPage(doView.title, doView.revID);
+
 		return true;
 	};
  
 	this.goForward = function(count) {
 		count = parseInt(count);
 
-
 		if (this.archivePosition <= 0) return false;
 		if (!count) count = 1;
  
-		if ( (this.archivePosition - count) < 0 ) { 
-			this.archivePosition = 0; 
+		if ((this.archivePosition + count) > (this.archives.length - 1)) {
+			this.archivePosition = this.archives.length - 1;
 		} else {
-			this.archivePosition -= count; 
+			this.archivePosition += count;
 		}
+
 		var doView = this.archives[this.archivePosition];
 
 		this.canAddtoArchives = false;
 		igloo.actions.loadPage(doView.title, doView.revID);
+
+		return true;
 	};
 }
 //Class iglooPast- sets up iglooHist

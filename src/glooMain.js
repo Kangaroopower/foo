@@ -1010,7 +1010,6 @@ function iglooArchive () {
 				// first, remove any history between the current position and 0.
 				if ( this.archivePosition > 0 ) {
 					this.archives = this.archives.slice(this.archivePosition);
-					this.archivePosition = 0;
 				}
 
 				// then add the page
@@ -1025,6 +1024,7 @@ function iglooArchive () {
 					var toSlice = (this.archives.length - iglooUserSettings.maxArchives) - 1;
 					this.archives = this.archives.slice(0, toSlice);
 				}
+				this.archivePosition = (this.archives.length - 1);
 			}
 		}
 

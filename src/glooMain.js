@@ -13,7 +13,7 @@ _iglooViewable = new iglooViewable();
   // based off code by Alex Barley
   // base code test only
 	
-	// expected jQuery 1.7.*, jin 1.04a+, Mediawiki 1.19
+	// expected jQuery 1.7.*, jin 1.04a+, Flash 0.72+, Mediawiki 1.20+
 
 /*
 	CLASSES ==========================
@@ -49,6 +49,7 @@ var iglooUserSettings = {
 	sig: "([[User:Ale_jrb/Scripts/igloo|GLOO]])",
 	serverLoc: 'https://raw.github.com/Kangaroopower/Igloo/master/',
 	version: "0.4 Phoenix",
+	mesysop: false,
 
 	// Modules
 
@@ -130,8 +131,34 @@ function iglooMain () {
 	
 	this.modules = {};
 
-	this.launch = function () {
+	this.load = function (){
+		//Perform page checks
 		if (mw.config.get('wgPageName') !== 'User:Ale_jrb/igDev') return;
+		if (mw.config.get('wgAction') !== 'view') return;
+
+		//Check user groups;
+		var t = 'igloo - ' + iglooUserSettings.version, 
+			groupsCheck = '', 
+			groups = mw.config.get('wgUserGroups');
+		
+		for ( var i = 0; i < groups.length; i ++ ) {
+			if (groups[i] === 'steward') { 
+				groupsCheck += 'steward|'; 
+			} else if (groups[i] === 'sysop') { 
+				groupsCheck += 'administrator|'; 
+				iglooUserSettings.mesysop = true;
+			} else if (groups[i] === 'rollbacker') { 
+				groupsCheck += 'rollback|'; 
+			}
+		}
+
+		if (groupsCheck === '') return;
+		document.title = t;
+
+		this.launch();
+	};
+
+	this.launch = function () {
 		this.buildInterface();
 
 		this.currentView = new iglooView();
@@ -1887,17 +1914,17 @@ iglooRequest.prototype.callback = function () {
 if (!igloo)
 	var igloo = new iglooMain();
 	
-if (typeof jin === 'undefined') {
+if (typeof jin === 'undefined' || typeof Flash === 'undefined') {
 	tIgLa = function () {
-		if (typeof jin === 'undefined') {
+		if (typeof jin === 'undefined' || typeof Flash === 'undefined') {
 			setTimeout(tIgLa, 1000);
 		} else {
-			igloo.launch();
+			igloo.load();
 		}
 	};
 	setTimeout(tIgLa, 1000);
 } else {
-	igloo.launch();
+	igloo.load();
 }
 
 Array.prototype.iglast = function () {

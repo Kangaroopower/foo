@@ -48,7 +48,7 @@ var iglooUserSettings = {
 	maxContentSize: 50,
 	sig: "([[User:Ale_jrb/Scripts/igloo|GLOO]])",
 	serverLoc: 'https://raw.github.com/Kangaroopower/Igloo/master/',
-	version: "0.3 Phoenix",
+	version: "0.4 Phoenix",
 
 	// Modules
 
@@ -1100,6 +1100,51 @@ function iglooArchive () {
 		return true;
 	};
 }
+
+//Class iglooSearch- brings up a requested, specific page
+function iglooSearch () {
+	//Placeholder
+}
+
+iglooSearch.prototype.buildInterface = function () {
+	var search = document.createElement('div'), me = this, browsePos = ( 62 * 2 ) - 15;
+
+	search.innerHTML = '<input id="igloo-search-to" type="text" style="width: 200px; height: 14px;" /><img style="position: relative; top: -3px; cursor: pointer;" src="' + iglooUserSettings.serverLoc + 'images/igloo-go.png" onclick="igloo.detective.search();" />';
+
+	$('#igloo-search-to').keypress(function(e) {
+	    if(e.which == 13) {
+	        me.search();
+	    }
+	});
+
+	$(search).css({
+		'position': 'relative',
+		'float': 'left',
+		'width': '230px',
+		'height': '20px',
+		'left': '-' + browsePos + 'px',
+		'margin-top': '45px',
+		'margin-left': '5px',
+		'cursor': 'pointer',
+	});
+
+	igloo.toolPane.panel.appendChild(search);
+};
+
+iglooSearch.prototype.search = function () {
+	var browseTo = $('#igloo-search-to').val();
+	igloo.justice.reversionEnabled = 'pause';
+	
+	$('#igloo-search-to').val('');
+
+	var search = new iglooRequest({
+		module: 'getPage',
+		params: { targ: browseTo, revisions: 1, properties: 'ids|user' },
+		callback: function ( data ) {  igloo.actions.loadPage(browseTo, data.ids.revid); }
+	}, 0, true, true);
+	search.run();
+};
+
 //Class iglooPast- sets up iglooHist
 function iglooPast () {
 	//Temporary- overwritten on a new diff load

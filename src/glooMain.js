@@ -1127,7 +1127,7 @@ iglooSearch.prototype.buildInterface = function () {
 		'width': '230px',
 		'height': '20px',
 		'left': '-' + browsePos + 'px',
-		'margin-top': '45px',
+		'margin-top': '65px',
 		'margin-left': '5px',
 		'cursor': 'pointer',
 	});
@@ -1144,7 +1144,7 @@ iglooSearch.prototype.search = function () {
 	var search = new iglooRequest({
 		module: 'getPage',
 		params: { targ: browseTo, revisions: 1, properties: 'ids|user' },
-		callback: function ( data ) {  igloo.actions.loadPage(browseTo, data.ids.revid); }
+		callback: function ( data ) {  igloo.actions.loadPage(browseTo, data[0].ids.revid); }
 	}, 0, true, true);
 	search.run();
 };

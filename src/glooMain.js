@@ -131,7 +131,7 @@ function iglooMain () {
 	this.modules = {};
 
 	this.launch = function () {
-		if (mw.config.get('wgPageName') !== 'User:Ale_jrb/igDev') return;
+		if (mw.config.get('wgPageName') !== 'User:Ale_jrb/igDev' && mw.config.get('wgAction') !== 'view') return;
 		this.buildInterface();
 
 		this.currentView = new iglooView();

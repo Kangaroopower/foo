@@ -1052,8 +1052,25 @@ function iglooArchive () {
 			forwardButton.src = forwardUrl + filetype; 
 		}
 	};
+ 
+	this.goBack = function (count) {
+		count = parseInt(count);
 
-	this.goBack = function(count) {
+		if ( this.archives.length <= 0 ) return false;
+		if ( ! count ) count = 1;
+		if ( ( this.archivePosition + count ) > this.archives.length ) {
+			count = this.archives.length;
+		}
+ 
+		this.archivePosition += count;
+		var doView = this.archives [this.archivePosition];
+ 
+		this.canAddtoArchives = false;
+		igloo.actions.loadPage(doView.title, doView.revID);
+		return true;
+	};
+ 
+	this.goForward = function(count) {
 		count = parseInt(count);
 
 
@@ -1067,22 +1084,6 @@ function iglooArchive () {
 		}
 		var doView = this.archives[this.archivePosition];
 
-		this.canAddtoArchives = false;
-		igloo.actions.loadPage(doView.title, doView.revID);
-	};
- 
-	this.goForward = function (count) {
-		count = parseInt(count);
-
-		if ( this.archives.length <= 0 ) return false;
-		if ( ! count ) count = 1;
-		if ( ( this.archivePosition + count ) > this.archives.length ) {
-			count = this.archives.length;
-		}
- 
-		this.archivePosition += count;
-		var doView = this.archives [this.archivePosition];
- 
 		this.canAddtoArchives = false;
 		igloo.actions.loadPage(doView.title, doView.revID);
 	};

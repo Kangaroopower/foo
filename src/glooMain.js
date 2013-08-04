@@ -1115,12 +1115,6 @@ iglooSearch.prototype.buildInterface = function () {
 
 	search.innerHTML = '<input id="igloo-search-to" type="text" style="width: 200px; height: 14px;" /><img style="position: relative; top: -3px; cursor: pointer;" src="' + iglooUserSettings.serverLoc + 'images/igloo-go.png" onclick="igloo.detective.search();" />';
 
-	$('#igloo-search-to').keypress(function(e) {
-	    if(e.which == 13) {
-	        me.search();
-	    }
-	});
-
 	$(search).css({
 		'position': 'relative',
 		'float': 'left',
@@ -1133,6 +1127,13 @@ iglooSearch.prototype.buildInterface = function () {
 	});
 
 	igloo.toolPane.panel.appendChild(search);
+
+	$('#igloo-search-to').keypress(function(e) {
+	    if(e.which == 13) {
+	        me.search();
+	    }
+	});
+
 };
 
 iglooSearch.prototype.search = function () {

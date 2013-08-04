@@ -1042,35 +1042,18 @@ function iglooArchive () {
 			backButton.src = backUrl + grey + filetype; 
 			forwardButton.src = forwardUrl + grey + filetype; 
 		} else if ( (this.archives.length > 1) && (this.archivePosition == 0) ) { 
-			backButton.src = backUrl + filetype; 
-			forwardButton.src = forwardUrl + grey + filetype; 
-		} else if ( (this.archives.length > 1) && (this.archivePosition == (this.archives.length - 1)) ) { 
 			backButton.src = backUrl + grey + filetype; 
 			forwardButton.src = forwardUrl + filetype; 
+		} else if ( (this.archives.length > 1) && (this.archivePosition == (this.archives.length - 1)) ) { 
+			backButton.src = backUrl + filetype; 
+			forwardButton.src = forwardUrl + grey + filetype; 
 		} else { 
 			backButton.src = backUrl + filetype; 
 			forwardButton.src = forwardUrl + filetype; 
 		}
 	};
- 
-	this.goBack = function (count) {
-		count = parseInt(count);
 
-		if ( this.archives.length <= 0 ) return false;
-		if ( ! count ) count = 1;
-		if ( ( this.archivePosition + count ) > this.archives.length ) {
-			count = this.archives.length;
-		}
- 
-		this.archivePosition += count;
-		var doView = this.archives [this.archivePosition];
- 
-		this.canAddtoArchives = false;
-		igloo.actions.loadPage(doView.title, doView.revID);
-		return true;
-	};
- 
-	this.goForward = function(count) {
+	this.goBack = function(count) {
 		count = parseInt(count);
 
 
@@ -1086,6 +1069,23 @@ function iglooArchive () {
 
 		this.canAddtoArchives = false;
 		igloo.actions.loadPage(doView.title, doView.revID);
+	};
+ 
+	this.goForward = function (count) {
+		count = parseInt(count);
+
+		if ( this.archives.length <= 0 ) return false;
+		if ( ! count ) count = 1;
+		if ( ( this.archivePosition + count ) > this.archives.length ) {
+			count = this.archives.length;
+		}
+ 
+		this.archivePosition += count;
+		var doView = this.archives [this.archivePosition];
+ 
+		this.canAddtoArchives = false;
+		igloo.actions.loadPage(doView.title, doView.revID);
+		return true;
 	};
 }
 //Class iglooPast- sets up iglooHist

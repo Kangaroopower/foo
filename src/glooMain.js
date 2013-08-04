@@ -809,18 +809,25 @@ iglooRevision.prototype.display = function () {
 	
 	// Create display element.
 	if (displayWhat === 'revision' || this.type === 'new') {
-		var div = document.createElement('div');
+		var div = document.createElement('div'), h2 = document.createElement('h2');
+
+		h2.id = 'iglooPageTitle';
+
+		// Append new content.
+		h2.innerHTML = this.pageTitle;
 		div.innerHTML = this.revisionContent;
 		
 		// Style display element.
 		$(div).find('a').each(function () {
 			$(this).prop('target', '_blank');
 		});
+		$(h2).css({'font-size' : '18px', 'margin-bottom': '5px', 'margin-top': '5px'});
 		
 		// Clear current display.
 		$(igloo.diffContainer.panel).find('*').remove();
 		
 		// Append new content.
+		igloo.diffContainer.panel.appendChild(h2);
 		igloo.diffContainer.panel.appendChild(div);
 
 		//You can't rollback new pages

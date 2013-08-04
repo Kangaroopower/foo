@@ -48,7 +48,7 @@ var iglooUserSettings = {
 	maxContentSize: 50,
 	sig: "([[User:Ale_jrb/Scripts/igloo|GLOO]])",
 	serverLoc: 'https://raw.github.com/Kangaroopower/Igloo/master/',
-	version: "0.2 Phoenix",
+	version: "0.3 Phoenix",
 
 	// Modules
 
@@ -70,7 +70,9 @@ var iglooUserSettings = {
 
 	//History Module
 	histWinTimeout: 0.8,
-	maxHistory: 20
+
+	//Archive Module
+	maxArchives: 20
 };
 
 function getp (obj) {
@@ -287,6 +289,10 @@ function iglooMain () {
 		this.justice = new iglooReversion();
 		this.justice.buildInterface();
 		this.announce('rollback');
+
+		this.archives = new iglooArchive();
+		this.archives.buildInterface();
+		this.announce('archives');
 
 		this.past = new iglooPast();
 		this.past.buildInterface();
@@ -797,6 +803,9 @@ iglooRevision.prototype.display = function () {
 	// Mark as displaying, and fire the displaying event.
 	this.displaying = true;
 	igloo.fireEvent('core', 'displaying-change', this);
+
+	// Add to archives
+	igloo.archives.manageHist(this.pageTitle, this.user, this.revId);
 	
 	// Create display element.
 	if (displayWhat === 'revision' || this.type === 'new') {
@@ -948,6 +957,137 @@ iglooActions.prototype.loadPage = function (page, revId) {
 	getRev.run();
 };
 
+//Class iglooArchives- holds a list of the diffs you've been to
+function iglooArchives () {
+	this.archives = [];
+	this.archivePosition = 0;
+	this.canAddtoArchives = true;
+
+	this.buildInterface = function () {
+		var backButton = document.createElement('div'),
+			forwardButton = document.createElement('div'),
+			me = this;
+
+		backButton.innerHTML = '<img id="igloo-buttons-back-b" src="' + iglooUserSettings.serverLoc + 'images/igloo-back-grey.png" />';
+		forwardButton.innerHTML = '<img id="igloo-buttons-forward-b" src="' + iglooUserSettings.serverLoc + 'images/igloo-forward-grey.png" />'
+		
+		$(backButton).click(function () {
+			me.goBack(1);
+		});
+
+		$(forwardButton).click(function () {
+			me.goForward(1);
+		});
+
+		$(backButton).css({
+			'position': 'relative',
+			'float': 'left',
+			'width': '50px',
+			'height': '50px',
+			'margin-top': '7px',
+			'margin-left': '20px',
+			'cursor': 'pointer',
+		});
+
+		$(forwardButton).css({
+			'position': 'relative',
+			'float': 'left',
+			'width': '50px',
+			'height': '50px',
+			'margin-top': '7px',
+			'margin-left': '10px',
+			'cursor': 'pointer',
+		});
+
+		igloo.toolPane.panel.appendChild(backButton);
+		igloo.toolPane.panel.appendChild(forwardButton);
+	};
+ 
+	this.manageHist = function (page, user, revID) {
+		// add the PREVIOUS page to the display history.
+		if ( page && user && revID ) {
+			if ( this.canAddtoArchives == true ) {
+				// first, remove any history between the current position and 0.
+				if ( this.archivePosition > 0 ) {
+					var temp = this.archives.slice(this.archivePosition);
+					this.archives = temp;
+					this.archivePosition = 0;
+				}
+
+				// then add the page
+				var histEntry = {
+					title: page,
+					user: user,
+					revID: revID
+				};
+
+				this.archives.push(histEntry);
+				if (this.archives > iglooUserSettings.maxArchives) {
+					this.archives.length = iglooUserSettings.maxArchives;
+				}
+			}
+		}
+
+		this.canAddtoArchives = true;
+ 
+		// handle greying of invalid options
+		var backButton 	= document.getElementById('igloo-buttons-back-b');
+		var forwardButton = document.getElementById('igloo-buttons-forward-b');
+		var backUrl	= '' + iglooUserSettings.serverLoc + 'images/igloo-back';
+		var forwardUrl = '' + iglooUserSettings.serverLoc + 'images/igloo-forward';
+		var grey = '-grey';
+		var filetype = '.png';
+ 
+		if (this.archives.length <= 1) { 
+			backButton.src = backUrl + grey + filetype; 
+			forwardButton.src = forwardUrl + grey + filetype; 
+		} else if ( (this.archives.length > 1) && (this.archivePosition == 0) ) { 
+			backButton.src = backUrl + filetype; 
+			forwardButton.src = forwardUrl + grey + filetype; 
+		} else if ( (this.archives.length > 1) && (this.archivePosition == (this.archives.length - 1)) ) { 
+			backButton.src = backUrl + grey + filetype; 
+			forwardButton.src = forwardUrl + filetype; 
+		} else { 
+			backButton.src = backUrl + filetype; 
+			forwardButton.src = forwardUrl + filetype; 
+		}
+	};
+ 
+	this.goBack = function (count) {
+		count = parseInt(count);
+
+		if ( this.archives.length <= 0 ) return false;
+		if ( ! count ) count = 1;
+		if ( ( this.archivePosition + count ) > this.archives.length ) {
+			count = this.archives.length;
+		}
+ 
+		this.archivePosition += count;
+		var doView = this.archives [this.archivePosition];
+ 
+		this.canAddtoArchives = false;
+		igloo.actions.loadPage(doView.title, doView.revID);
+		return true;
+	};
+ 
+	this.goForward = function(count) {
+		count = parseInt(count);
+
+
+		if (this.archivePosition <= 0) return false;
+		if (!count) count = 1;
+ 
+		if ( (this.archivePosition - count) < 0 ) { 
+			this.archivePosition = 0; 
+		} else {
+			this.archivePosition -= count; 
+		}
+		var doView = this.archives[this.archivePosition];
+
+		this.canAddtoArchives = false;
+		igloo.actions.loadPage(doView.title, doView.revID);
+	};
+}
 //Class iglooPast- sets up iglooHist
 function iglooPast () {
 	//Temporary- overwritten on a new diff load

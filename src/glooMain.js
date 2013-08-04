@@ -1015,8 +1015,8 @@ function iglooArchive () {
 		if ( page && user && revID ) {
 			if ( this.canAddtoArchives == true ) {
 				// first, remove any history between the current position and 0.
-				if ( this.archivePosition > 0 ) {
-					this.archives = this.archives.slice(this.archivePosition);
+				if ( this.archivePosition >= 0 ) {
+					this.archives = this.archives.slice(0, (this.archivePosition + 1));
 				}
 
 				// then add the page

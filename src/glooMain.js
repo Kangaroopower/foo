@@ -294,6 +294,10 @@ function iglooMain () {
 		this.archives.buildInterface();
 		this.announce('archives');
 
+		this.detective = new iglooSearch();
+		this.detective.buildInterface();
+		this.announce('search');
+
 		this.past = new iglooPast();
 		this.past.buildInterface();
 		this.announce('hist');

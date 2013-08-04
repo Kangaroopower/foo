@@ -1023,7 +1023,7 @@ function iglooArchive () {
 				this.archives.push(histEntry);
 				if (this.archives.length > iglooUserSettings.maxArchives) {
 					var toSlice = (this.archives.length - iglooUserSettings.maxArchives) - 1;
-					this.archives = this.archives.slice(toSlice);
+					this.archives = this.archives.slice(0, toSlice);
 				}
 			}
 		}

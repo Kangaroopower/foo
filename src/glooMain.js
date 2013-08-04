@@ -1021,7 +1021,7 @@ function iglooArchive () {
 					revID: revID
 				};
 
-				this.archives.push(histEntry);
+				this.archives.shift(histEntry);
 				if (this.archives > iglooUserSettings.maxArchives) {
 					this.archives.length = iglooUserSettings.maxArchives;
 				}

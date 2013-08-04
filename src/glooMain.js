@@ -957,8 +957,8 @@ iglooActions.prototype.loadPage = function (page, revId) {
 	getRev.run();
 };
 
-//Class iglooArchives- holds a list of the diffs you've been to
-function iglooArchives () {
+//Class iglooArchive- holds a list of the diffs you've been to
+function iglooArchive () {
 	this.archives = [];
 	this.archivePosition = 0;
 	this.canAddtoArchives = true;

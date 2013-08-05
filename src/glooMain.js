@@ -714,9 +714,6 @@ function iglooRevision () {
 	
 	this.displayRequest = false; // diff should be displayed when its content next changes
 	this.page = null; // the iglooPage object to which this revision belongs
-
-	this.old = {}; // previous revision
-	this.ots = null; //previous timestamp
 	
 	// Constructor
 	if (arguments[0]) {
@@ -845,18 +842,19 @@ iglooRevision.prototype.display = function () {
 			me = this, 
 			same = document.createElement('div'),
 			ts = this.timestamp,
-			thisDiff = this;
+			old = {user:'a', minor:'m', summary:'test'}
+			ots = new Date("2013-08-05T21:19:51Z");
 
-		igloo.actions.getRevInfo(this.pageTitle, this.revId, function (data) {
-			thisDiff.old = data;
-			thisDiff.ots = new Date(data.timestamp);
-		});
+		/*igloo.actions.getRevInfo(this.pageTitle, this.revId, function (data) {
+			old = data;
+			ots = new Date(data.timestamp);
+		});*/
 
 		h2.id = 'iglooPageTitle';
 
-		table.innerHTML = '<tr style="vertical-align: top;font-size:13px;"><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + thisDiff.ots.getUTCHours() + ':' + thisDiff.ots.getUTCMinutes() + ', ' + thisDiff.ots.getUTCDate() + ' ' + months[ots.getUTCMonth()] + ' ' + thisDiff.ots.getFullYear() + '</strong></div><div>'+ thisDiff.old.user +'</div><div><span>'+ thisDiff.old.summary +'</span></div></td><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ts.getUTCHours() + ':' + ts.getUTCMinutes() + ', ' + ts.getUTCDate() + ' ' + months[ts.getUTCMonth()] + ' ' + ts.getFullYear() + '</strong></div><div>' + this.user + '</div><div><strong title="This is a minor edit">'+ this.minor + '</strong><span>'+ this.summary +'</span></div></td></tr><tr><td id="iglooDiffCol1" colspan="2"> </td><td id="iglooDiffCol2" colspan="2"> </td></tr>' + this.diffContent;
+		table.innerHTML = '<tr style="vertical-align: top;font-size:13px;"><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ots.getUTCHours() + ':' + ots.getUTCMinutes() + ', ' + ots.getUTCDate() + ' ' + months[ots.getUTCMonth()] + ' ' + ots.getFullYear() + '</strong></div><div>'+ old.user +'</div><div><strong title="This is a minor edit">'+ old.minor + '</strong><span>'+ old.summary +'</span></div></td><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ts.getUTCHours() + ':' + ts.getUTCMinutes() + ', ' + ts.getUTCDate() + ' ' + months[ts.getUTCMonth()] + ' ' + ts.getFullYear() + '</strong></div><div>' + this.user + '</div><div><strong title="This is a minor edit">'+ this.minor + '</strong><span>'+ this.summary +'</span></div></td></tr><tr><td id="iglooDiffCol1" colspan="2"> </td><td id="iglooDiffCol2" colspan="2"> </td></tr>' + this.diffContent;
 		h2.innerHTML = this.pageTitle;
-		same.innerHTML = '<br/><span style="text-align:center">(No Change)</span><br/>'
+		same.innerHTML = '<br/><span style="text-align:center">(No Change)</span><br/>';
 
 		// Style display element.
 		// TODO

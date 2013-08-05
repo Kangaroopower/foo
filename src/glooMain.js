@@ -48,7 +48,7 @@ var iglooUserSettings = {
 	maxContentSize: 50,
 	sig: "([[User:Ale_jrb/Scripts/igloo|GLOO]])",
 	serverLoc: 'https://raw.github.com/Kangaroopower/Igloo/master/',
-	version: "0.4 Phoenix",
+	version: "0.5 Phoenix",
 	mesysop: false,
 
 	// Modules

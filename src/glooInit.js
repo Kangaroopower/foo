@@ -119,7 +119,7 @@
 			// add a message to the status output, and display it.
 			if (this.iglooStatus.length > 15) this.iglooStatus.splice(0, 1);
 			
-			if ( (noEndline === null) || (noEndline === false) ) { message += '<br />'; }
+			if ( (noEndline == null) || (noEndline === false) ) { message += '<br />'; }
 			
 			this.iglooStatus.push(message);			
 			

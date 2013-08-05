@@ -57,7 +57,7 @@
 					var timer = setTimeout(function() { 
 						iglooImport ( 'https://raw.github.com/Kangaroopower/Igloo/master/src/glooMain.js', true);
 						timer = false;
-					}, 4000);
+					}, 2000);
 					break;
 			}
 		};

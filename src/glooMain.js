@@ -842,7 +842,7 @@ iglooRevision.prototype.display = function () {
 			me = this, 
 			same = document.createElement('div'),
 			ts = this.timestamp,
-			old = {user:'a', minor:'m', summary:'test'}
+			old = {user:'a', minor:'m', comment:'test'}
 			ots = new Date("2013-08-05T21:19:51Z");
 
 		/*igloo.actions.getRevInfo(this.pageTitle, this.revId, function (data) {
@@ -852,7 +852,7 @@ iglooRevision.prototype.display = function () {
 
 		h2.id = 'iglooPageTitle';
 
-		table.innerHTML = '<tr style="vertical-align: top;font-size:13px;"><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ots.getUTCHours() + ':' + ots.getUTCMinutes() + ', ' + ots.getUTCDate() + ' ' + months[ots.getUTCMonth()] + ' ' + ots.getFullYear() + '</strong></div><div>'+ old.user +'</div><div><strong title="This is a minor edit">'+ old.minor + '</strong><span>'+ old.summary +'</span></div></td><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ts.getUTCHours() + ':' + ts.getUTCMinutes() + ', ' + ts.getUTCDate() + ' ' + months[ts.getUTCMonth()] + ' ' + ts.getFullYear() + '</strong></div><div>' + this.user + '</div><div><strong title="This is a minor edit">'+ this.minor + '</strong><span>'+ this.summary +'</span></div></td></tr><tr><td id="iglooDiffCol1" colspan="2"> </td><td id="iglooDiffCol2" colspan="2"> </td></tr>' + this.diffContent;
+		table.innerHTML = '<tr style="vertical-align: top;font-size:13px;"><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ots.getUTCHours() + ':' + ots.getUTCMinutes() + ', ' + ots.getUTCDate() + ' ' + months[ots.getUTCMonth()] + ' ' + ots.getFullYear() + '</strong></div><div>'+ old.user +'</div><div><strong title="This is a minor edit">'+ old.minor + '</strong>&nbsp;<span>'+ old.comment +'</span></div></td><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ts.getUTCHours() + ':' + ts.getUTCMinutes() + ', ' + ts.getUTCDate() + ' ' + months[ts.getUTCMonth()] + ' ' + ts.getFullYear() + '</strong></div><div>' + this.user + '</div><div><strong title="This is a minor edit">'+ this.minor + '</strong>&nbsp;<span>'+ this.summary +'</span></div></td></tr><tr><td id="iglooDiffCol1" colspan="2"> </td><td id="iglooDiffCol2" colspan="2"> </td></tr>' + this.diffContent;
 		h2.innerHTML = this.pageTitle;
 		same.innerHTML = '<br/><span style="text-align:center">(No Change)</span><br/>';
 
@@ -955,7 +955,7 @@ iglooActions.prototype.getRevInfo = function (page, revId, cb) {
 			res.ns = info.ns;
 			res.timestamp = info.revisions[0].timestamp;
 			res.user = info.revisions[0].user;
-			res.summary = info.revisions[0].comment;
+			res.comment = info.revisions[0].comment;
 			res.minor = info.revisions[0].minor;
 			res.old_revid = info.revisions[0].parentid;
 			res.revid = revId;

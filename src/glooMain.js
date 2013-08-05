@@ -714,6 +714,9 @@ function iglooRevision () {
 	
 	this.displayRequest = false; // diff should be displayed when its content next changes
 	this.page = null; // the iglooPage object to which this revision belongs
+
+	this.old = {}; // previous revision
+	this.ots = null; //previous timestamp
 	
 	// Constructor
 	if (arguments[0]) {
@@ -842,20 +845,16 @@ iglooRevision.prototype.display = function () {
 			me = this, 
 			same = document.createElement('div'),
 			ts = this.timestamp,
-			old,
-			ots;
+			me = this;
 
 		igloo.actions.getRevInfo(this.pageTitle, this.revId, function (data) {
-			old = data;
-			ots = new Date(data.timestamp);
-			console.warn(ots);
+			me.old = data;
+			me.ots = new Date(data.timestamp);
 		});
-		console.warn(old);
-		console.warn(ots);
 
 		h2.id = 'iglooPageTitle';
 
-		table.innerHTML = '<tr style="vertical-align: top;font-size:13px;"><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ots.getUTCHours() + ':' + ots.getUTCMinutes() + ', ' + ots.getUTCDate() + ' ' + months[ots.getUTCMonth()] + ' ' + ots.getFullYear() + '</strong></div><div>'+ old.user +'</div><div><span>'+ old.summary +'</span></div></td><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ts.getUTCHours() + ':' + ts.getUTCMinutes() + ', ' + ts.getUTCDate() + ' ' + months[ts.getUTCMonth()] + ' ' + ts.getFullYear() + '</strong></div><div>' + this.user + '</div><div><strong title="This is a minor edit">'+ this.minor + '</strong><span>'+ this.summary +'</span></div></td></tr><tr><td id="iglooDiffCol1" colspan="2"> </td><td id="iglooDiffCol2" colspan="2"> </td></tr>' + this.diffContent;
+		table.innerHTML = '<tr style="vertical-align: top;font-size:13px;"><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + me.ots.getUTCHours() + ':' + me.ots.getUTCMinutes() + ', ' + me.ots.getUTCDate() + ' ' + months[ots.getUTCMonth()] + ' ' + me.ots.getFullYear() + '</strong></div><div>'+ me.old.user +'</div><div><span>'+ me.old.summary +'</span></div></td><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ts.getUTCHours() + ':' + ts.getUTCMinutes() + ', ' + ts.getUTCDate() + ' ' + months[ts.getUTCMonth()] + ' ' + ts.getFullYear() + '</strong></div><div>' + this.user + '</div><div><strong title="This is a minor edit">'+ this.minor + '</strong><span>'+ this.summary +'</span></div></td></tr><tr><td id="iglooDiffCol1" colspan="2"> </td><td id="iglooDiffCol2" colspan="2"> </td></tr>' + this.diffContent;
 		h2.innerHTML = this.pageTitle;
 		same.innerHTML = '<br/><span style="text-align:center">(No Change)</span><br/>'
 
@@ -975,14 +974,12 @@ iglooActions.prototype.getRevInfo = function (page, revId, cb) {
 };
 
 iglooActions.prototype.loadPage = function (page, revId) {
-	var p, res;
-
 	this.getRevInfo(page, revId, function (data) {
+		var p, res;
 		res = data;
+		p = new iglooPage(new iglooRevision(res));
+		p.display();
 	});
-
-	p = new iglooPage(new iglooRevision(res));
-	p.display();
 };
 
 //Class iglooArchive- holds a list of the diffs you've been to

@@ -133,7 +133,7 @@ function iglooMain () {
 
 	this.load = function (){
 		//Perform page checks
-		if (mw.config.get('wgPageName') !== 'User:Ale_jrb/igDev') return;
+		/*if (mw.config.get('wgPageName') !== 'User:Ale_jrb/igDev') return;
 		if (mw.config.get('wgAction') !== 'view') return;
 
 		//Check user groups;
@@ -142,19 +142,22 @@ function iglooMain () {
 			groups = mw.config.get('wgUserGroups');
 		
 		for ( var i = 0; i < groups.length; i ++ ) {
-			if (groups[i] === 'steward') { 
+			if (groups[i] === 'steward') {
 				groupsCheck += 'steward|'; 
-			} else if (groups[i] === 'sysop') { 
+			} else if (groups[i] === 'sysop') {
 				groupsCheck += 'administrator|'; 
 				iglooUserSettings.mesysop = true;
-			} else if (groups[i] === 'rollbacker') { 
+			} else if (groups[i] === 'rollbacker') {
 				groupsCheck += 'rollback|'; 
 			}
 		}
 
 		if (groupsCheck === '') return;
-		document.title = t;
 
+		if (mw.config.get('wgEnableAPI') !== true) return;
+		if (mw.config.get('wgEnableWriteAPI') !== true) return;*/
+
+		document.title = 'igloo - ' + iglooUserSettings.version, 
 		this.launch();
 	};
 

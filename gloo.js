@@ -43,4 +43,4 @@ function iglooImport( page, remote ) {
 iglooImport ( 'https://raw.github.com/Kangaroopower/Igloo/master/lib/flash.js', true);
 iglooImport ( 'https://raw.github.com/Kangaroopower/Igloo/master/lib/jin.js', true);
 
-iglooImport ( 'https://raw.github.com/Kangaroopower/Igloo/master/src/glooMain.js', true);
+iglooImport ( 'https://raw.github.com/Kangaroopower/Igloo/master/src/glooInit.js', true);

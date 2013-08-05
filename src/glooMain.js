@@ -1610,7 +1610,7 @@ iglooRollback.prototype.warnUser = function( callback, details ) {
 				summary = summary.replace ( /%LEVEL%/g, this.warningLevel );
 				summary = summary.replace ( /%PAGE%/g, this.pageTitle );
 				
-			if ( header != false ) message = '\n' + header + '\n' + message;
+			if ( header != false ) message = '<br/>' + header + '\n' + message;
 
 			var userReport = new iglooRequest({
 				module: 'edit',

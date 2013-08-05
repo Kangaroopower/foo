@@ -480,7 +480,7 @@ iglooRecentChanges.prototype.update = function () {
 		dataType: 'json',
 		context: me,
 		success: function (data) {
-			me.loadChanges.apply(me, [data]);
+			me.loadChanges(data);
 		}
 	}, 0, false)).run();
 };

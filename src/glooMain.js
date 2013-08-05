@@ -850,6 +850,8 @@ iglooRevision.prototype.display = function () {
 			ots = new Date(data.timestamp);
 			console.warn(ots);
 		});
+		console.warn(old);
+		console.warn(ots);
 
 		h2.id = 'iglooPageTitle';
 

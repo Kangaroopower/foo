@@ -14,12 +14,13 @@
 				// call init.
 				iglooImport('User:Ale_jrb/Scripts/iglooInit.js');
 			} else {
-				var iglooDivs = document.getElementsByTagName('div');
+				var iglooDivs = document.getElementsByTagName('div'),
+					serverBase = mw.config.get('wgServer') + mw.config.get('wgArticlePath').substr(0,(mw.config.get('wgArticlePath').length - 2));
 				
 				// check for launch buttons
 				var iglooLink = document.createElement('li');
 				iglooLink.id = 't-igloo';
-				iglooLink.innerHTML = '<a id="igloo-goto-menu" target="_blank" href="User:Ale_jrb/Scripts/igloo" title="igloo">igloo</a> | <a id="igloo-do-launch" target="_blank" href="User:Ale_jrb/igDev" title="launch igloo">(launch)</a>';
+				iglooLink.innerHTML = '<a id="igloo-goto-menu" target="_blank" href="'+serverBase+'User:Ale_jrb/Scripts/igloo" title="igloo">igloo</a> | <a id="igloo-do-launch" target="_blank" href="'+serverBase+'User:Ale_jrb/igDev" title="launch igloo">(launch)</a>';
 					 
 				var parent = document.getElementById('p-tb');
 				parent.childNodes[3].childNodes[1].insertBefore(iglooLink, parent.childNodes[3].childNodes[1].firstChild);
@@ -38,7 +39,7 @@
 						iglooDivs[i].style.fontWeight = 'bold';
 						iglooDivs[i].style.textAlign = 'center';
 						iglooDivs[i].style.cursor = 'pointer';
-						iglooDivs[i].innerHTML = '<a target="_blank" href="User:Ale_jrb/igDev">launch igloo</a>';
+						iglooDivs[i].innerHTML = '<a target="_blank" href="'+serverBase +'User:Ale_jrb/igDev">launch igloo</a>';
 					}
 				}
 			}

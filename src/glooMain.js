@@ -847,7 +847,7 @@ iglooRevision.prototype.display = function () {
 
 		igloo.actions.getRevInfo(this.pageTitle, this.revId, function (data) {
 			old = data;
-			ots = old.timestamp;
+			ots = new Date(old.timestamp);
 		});
 
 		h2.id = 'iglooPageTitle';

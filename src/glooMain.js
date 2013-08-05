@@ -131,32 +131,7 @@ function iglooMain () {
 	
 	this.modules = {};
 
-	this.load = function (){
-		//Perform page checks
-		/*if (mw.config.get('wgPageName') !== 'User:Ale_jrb/igDev') return;
-		if (mw.config.get('wgAction') !== 'view') return;
-
-		//Check user groups;
-		var t = 'igloo - ' + iglooUserSettings.version, 
-			groupsCheck = '', 
-			groups = mw.config.get('wgUserGroups');
-		
-		for ( var i = 0; i < groups.length; i ++ ) {
-			if (groups[i] === 'steward') {
-				groupsCheck += 'steward|'; 
-			} else if (groups[i] === 'sysop') {
-				groupsCheck += 'administrator|'; 
-				iglooUserSettings.mesysop = true;
-			} else if (groups[i] === 'rollbacker') {
-				groupsCheck += 'rollback|'; 
-			}
-		}
-
-		if (groupsCheck === '') return;
-
-		if (mw.config.get('wgEnableAPI') !== true) return;
-		if (mw.config.get('wgEnableWriteAPI') !== true) return;*/
-
+	this.load = function () {
 		document.title = 'igloo - ' + iglooUserSettings.version, 
 		this.launch();
 	};
@@ -501,7 +476,7 @@ iglooRecentChanges.prototype.update = function () {
 	var me = this;
 	(new iglooRequest({
 		url: me.loadUrl,
-		data: { format: 'json', action: 'query', list: 'recentchanges' },
+		data: { format: 'json', action: 'query', list: 'recentchanges', rcprop:'title|user|ids|comment|timestamp|flags'},
 		dataType: 'json',
 		context: me,
 		success: function (data) {
@@ -753,26 +728,11 @@ iglooRevision.prototype.setMetaData = function (newData) {
 	this.oldId = newData.old_revid;
 	this.revId = newData.revid;
 	this.type = newData.type;
-	this.retrieveUser();
+	this.user = newData.user;
+	this.summary = newData.comment;
+	this.timestamp = new Date(newData.timestamp);
+	this.minor = (newData.minor != "undefined") === true ? 'm' : '';
 };
-
-iglooRevision.prototype.retrieveUser = function () {
-	var me = this, userRequest = null;
-
-	if (userRequest === null) {
-		userRequest = new iglooRequest({
-			url: iglooConfiguration.api,
-			data: { format: 'json', action: 'query', prop: 'revisions', revids: '' + me.revId, rvprop: 'user', indexpageids: '1' },
-			dataType: 'json',
-			context: me,
-			success: function (data) {
-				this.user = data.query.pages[data.query.pageids[0]].revisions[0].user;
-				userRequest = null;
-			}
-		}, 0, true);
-		userRequest.run();
-	}
-}
 
 iglooRevision.prototype.loadRevision = function (newData) {
 	var me = this;
@@ -823,7 +783,8 @@ iglooRevision.prototype.loadDiff = function () {
 
 iglooRevision.prototype.display = function () {
 	// Determine what should be displayed.
-	var displayWhat;
+	var displayWhat,
+		months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         
 	if (!arguments[0]) {
 		displayWhat = 'diff';
@@ -879,11 +840,19 @@ iglooRevision.prototype.display = function () {
 		var table = document.createElement('table'), 
 			h2 = document.createElement('h2'), 
 			me = this, 
-			same = document.createElement('div');
+			same = document.createElement('div'),
+			ts = this.timestamp,
+			old,
+			ots;
+
+		igloo.actions.getRevInfo(this.pageTitle, this.revId, function (data) {
+			old = data;
+			ots = old.timestamp;
+		});
 
 		h2.id = 'iglooPageTitle';
 
-		table.innerHTML = '<tr><td id="iglooDiffCol1" colspan="2"> </td><td id="iglooDiffCol2" colspan="2"> </td></tr>' + this.diffContent;
+		table.innerHTML = '<tr style="vertical-align: top;font-size:13px;"><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ots.getUTCHours() + ':' + ots.getUTCMinutes() + ', ' + ots.getUTCDate() + ' ' + months[ots.getUTCMonth()] + ' ' + ots.getFullYear() + '</strong></div><div>'+ old.user +'</div><div><span>'+ old.summary +'</span></div></td><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ts.getUTCHours() + ':' + ts.getUTCMinutes() + ', ' + ts.getUTCDate() + ' ' + months[ts.getUTCMonth()] + ' ' + ts.getFullYear() + '</strong></div><div>' + this.user + '</div><div><strong title="This is a minor edit">'+ this.minor + '</strong><span>'+ this.summary +'</span></div></td></tr><tr><td id="iglooDiffCol1" colspan="2"> </td><td id="iglooDiffCol2" colspan="2"> </td></tr>' + this.diffContent;
 		h2.innerHTML = this.pageTitle;
 		same.innerHTML = '<br/><span style="text-align:center">(No Change)</span><br/>'
 
@@ -972,18 +941,22 @@ function iglooActions () {
 	//Placeholder
 }
 
-iglooActions.prototype.loadPage = function (page, revId) {
+iglooActions.prototype.getRevInfo = function (page, revId, cb) {
 	var me = this;
 	revId = parseInt(revId);
 	var getRev = new iglooRequest({
 		url: iglooConfiguration.api,
-		data: { format: 'json', action: 'query', prop: 'revisions', revids: revId, rvprop: 'ids|user', indexpageids: 1},
+		data: { format: 'json', action: 'query', prop: 'revisions', revids: revId, indexpageids: 1},
 		dataType: 'json',
 		context: me,
 		success: function (data) {
 			var info = data.query.pages[data.query.pageids[0]], res = {}, p;
-			res.title = page
+			res.title = page;
 			res.ns = info.ns;
+			res.timestamp = info.revisions[0].timestamp;
+			res.user = info.revisions[0].user;
+			res.summary = info.revisions[0].comment;
+			res.minor = info.revisions[0].minor;
 			res.old_revid = info.revisions[0].parentid;
 			res.revid = revId;
 			if (info.revisions[0].parentid === 0) {
@@ -991,11 +964,22 @@ iglooActions.prototype.loadPage = function (page, revId) {
 			} else {
 				res.type = 'edit';
 			}
-			p = new iglooPage(new iglooRevision(res));
-			p.display();
+
+			cb(res);
 		}
 	}, 0, true);
 	getRev.run();
+};
+
+iglooActions.prototype.loadPage = function (page, revId) {
+	var p, res;
+
+	this.getRevInfo(page, revId, function (data) {
+		res = data;
+	});
+
+	p = new iglooPage(new iglooRevision(res));
+	p.display();
 };
 
 //Class iglooArchive- holds a list of the diffs you've been to

@@ -147,6 +147,7 @@ function iglooMain () {
 
 		this.recentChanges.setTickTime(2000);
 		this.statusLog.buildInterface();
+		currentView.displayWelcome();
 
 		this.loadModules(); 
 	};
@@ -605,8 +606,16 @@ iglooView.prototype.display = function (revision) {
 	this.displaying.show();
 };
 
+iglooView.prototype.displayWelcome = function () {
+	var h2 = document.createElement('h2');
+	h2.innerHTML = "Welcome";
 
-
+	// Clear current display.
+	$(igloo.diffContainer.panel).find('*').remove();
+		
+	// Append new content.
+	igloo.diffContainer.panel.appendChild(h2);
+};
 
 // Class iglooPage
 
@@ -1607,7 +1616,7 @@ iglooRollback.prototype.warnUser = function( callback, details ) {
 				summary = summary.replace ( /%LEVEL%/g, this.warningLevel );
 				summary = summary.replace ( /%PAGE%/g, this.pageTitle );
 				
-			if ( header != false ) message = '<br/>' + header + '\n' + message;
+			if ( header !== false ) message = '\n' + header + '\n' + message;
 
 			var userReport = new iglooRequest({
 				module: 'edit',

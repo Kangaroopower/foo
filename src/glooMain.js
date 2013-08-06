@@ -48,7 +48,7 @@ var iglooUserSettings = {
 	maxContentSize: 50,
 	sig: "([[User:Ale_jrb/Scripts/igloo|GLOO]])",
 	serverLoc: 'https://raw.github.com/Kangaroopower/Igloo/master/',
-	version: "0.5 Phoenix",
+	version: "0.6 Phoenix",
 	mesysop: false,
 
 	// Modules
@@ -132,7 +132,15 @@ function iglooMain () {
 	this.modules = {};
 
 	this.load = function () {
-		document.title = 'igloo - ' + iglooUserSettings.version, 
+		var groups = mw.config.get('wgUserGroups')
+		document.title = 'igloo - ' + iglooUserSettings.version;
+
+		for ( var i = 0; i < groups.length; i++ ) {
+			if (groups[i] === 'steward' || groups[i] === 'sysop') { 
+				iglooUserSettings.mesysop = true;
+			}
+		}
+
 		this.launch();
 	};
 
@@ -147,7 +155,7 @@ function iglooMain () {
 
 		this.recentChanges.setTickTime(2000);
 		this.statusLog.buildInterface();
-		currentView.displayWelcome();
+		this.currentView.displayWelcome();
 
 		this.loadModules(); 
 	};

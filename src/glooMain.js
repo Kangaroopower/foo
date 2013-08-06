@@ -50,6 +50,7 @@ var iglooUserSettings = {
 	serverLoc: 'https://raw.github.com/Kangaroopower/Igloo/master/',
 	version: "0.6 Igloo",
 	mesysop: false,
+	localBase: 'Wikipedia:Igloo'
 
 	// Modules
 
@@ -616,14 +617,24 @@ iglooView.prototype.display = function (revision) {
 };
 
 iglooView.prototype.displayWelcome = function () {
-	var h2 = document.createElement('h2');
-	h2.innerHTML = "Welcome";
+	// this function specifically displays the welcome message in the diff window
+	var welcomeRequest = new iglooRequest({
+		module: 'getPage',
+		params: { targ: iglooUserSettings.localBase + '/config', revisions: 1, properties: 'content' },
+		callback: function ( data ) {
+			//Perform regex
+			var regTest = /welcome:(.+?);;/i, o;
+			regResult = regTest.exec(data[0].content);
+			o = regResult[1].replace ('%CURRENTVERSION%', iglooUserSettings.version);
 
-	// Clear current display.
-	$(igloo.diffContainer.panel).find('*').remove();
-		
-	// Append new content.
-	igloo.diffContainer.panel.appendChild(h2);
+			// Clear current display.
+			$(igloo.diffContainer.panel).find('*').remove();
+				
+			// Append new content.
+			igloo.diffContainer.panel.appendChild(h2);
+		}
+	}, 0, true, true);
+	welcomeRequest.run();
 };
 
 // Class iglooPage

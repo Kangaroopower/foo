@@ -48,7 +48,7 @@ var iglooUserSettings = {
 	maxContentSize: 50,
 	sig: "([[Wikipedia:Igloo|GLOO]])",
 	serverLoc: 'https://raw.github.com/Kangaroopower/Igloo/master/',
-	version: "0.63 Igloo",
+	version: "0.64 Igloo",
 	mesysop: false,
 	localBase: 'Wikipedia:Igloo',
 
@@ -631,7 +631,7 @@ iglooView.prototype.displayWelcome = function () {
 			$(igloo.diffContainer.panel).find('*').remove();
 				
 			// Append new content.
-			igloo.diffContainer.panel.appendChild(o);
+			$(igloo.diffContainer.panel).append(o);
 		}
 	}, 0, true, true);
 	welcomeRequest.run();

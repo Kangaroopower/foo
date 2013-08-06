@@ -631,7 +631,7 @@ iglooView.prototype.displayWelcome = function () {
 			$(igloo.diffContainer.panel).find('*').remove();
 				
 			// Append new content.
-			igloo.diffContainer.panel.appendChild(h2);
+			igloo.diffContainer.panel.appendChild(regResult);
 		}
 	}, 0, true, true);
 	welcomeRequest.run();

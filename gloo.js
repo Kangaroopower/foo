@@ -5,13 +5,15 @@
 ** displaying information to the user, as well as allowing
 ** the user to interact with the program, as well as 
 ** handling connection and authentication with the server. 
-** (Server interaction to come)
+** (Server interaction not currently present and may not ever
+** be present)
 **
 **  ======================================================  **
 **	igloo anti-vandalism tool for Wikipedia
 **		based off of the script igloo by Alex Barley
+**  By: User:Kangaroopower
 **
-**	For instructions, see [[User:Ale_jrb/Scripts/igloo]]
+**	For instructions, see [[Wikipedia:Igloo]]
 **  ======================================================  **
 **
 **	You may copy, modify and distribute this software as
@@ -19,7 +21,7 @@
 ** correct attribution.
 **
 **  ======================================================  **
-**			tracker: [[User:Ale_jrb/Scripts/igloo]]
+**			tracker: [[Wikipedia:Igloo]]
 \* ======================================================== */
 
 function iglooImport( page, remote ) {

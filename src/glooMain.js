@@ -48,8 +48,7 @@ var iglooUserSettings = {
 	maxContentSize: 50,
 	sig: "([[Wikipedia:Igloo|GLOO]])",
 	serverLoc: 'https://raw.github.com/Kangaroopower/Igloo/master/',
-	version: "0.6",
-	channel: "Igloo",
+	version: "0.6 Igloo",
 	mesysop: false,
 
 	// Modules
@@ -135,7 +134,7 @@ function iglooMain () {
 	this.load = function () {
 		var groups = mw.config.get('wgUserGroups');
 
-		document.title = 'igloo - ' + iglooUserSettings.version + '[channel: '+ iglooUserSettings.channel + ']';
+		document.title = 'igloo - ' + iglooUserSettings.version;
 
 		for ( var i = 0; i < groups.length; i++ ) {
 			if (groups[i] === 'steward' || groups[i] === 'sysop') { 

@@ -48,7 +48,7 @@ var iglooUserSettings = {
 	maxContentSize: 50,
 	sig: "([[Wikipedia:Igloo|GLOO]])",
 	serverLoc: 'https://raw.github.com/Kangaroopower/Igloo/master/',
-	version: "0.6 Igloo",
+	version: "0.61 Igloo",
 	mesysop: false,
 	localBase: 'Wikipedia:Igloo'
 

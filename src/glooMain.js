@@ -50,7 +50,7 @@ var iglooUserSettings = {
 	serverLoc: 'https://raw.github.com/Kangaroopower/Igloo/master/',
 	version: "0.61 Igloo",
 	mesysop: false,
-	localBase: 'Wikipedia:Igloo'
+	localBase: 'Wikipedia:Igloo',
 
 	// Modules
 

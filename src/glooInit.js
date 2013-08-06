@@ -180,7 +180,7 @@ function iglooInit () {
 	this.runIglooInit = new iglooInitControl();
 
 	this.launch = function () {
-		if (mw.config.get('wgPageName') !== 'User:Ale_jrb/igDev') return;
+		if (mw.config.get('wgPageName') !== 'Wikipedia:Igloo/run') return;
 		if (mw.config.get('wgAction') !== 'view') return;
 		this.runIglooInit.init();
 	};

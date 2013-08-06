@@ -9,7 +9,7 @@ _iglooViewable = new iglooViewable();
 
 
 
-// iglooMain development copy
+// iglooMain alpha copy
   // based off code by Alex Barley
   // base code test only
 	
@@ -46,9 +46,10 @@ var iglooUserSettings = {
 
 	// Misc
 	maxContentSize: 50,
-	sig: "([[User:Ale_jrb/Scripts/igloo|GLOO]])",
+	sig: "([[Wikipedia:Igloo|GLOO]])",
 	serverLoc: 'https://raw.github.com/Kangaroopower/Igloo/master/',
-	version: "0.6 Phoenix",
+	version: "0.6",
+	channel: "Igloo",
 	mesysop: false,
 
 	// Modules
@@ -56,8 +57,8 @@ var iglooUserSettings = {
 	//Rollback Module
 	vandalTemplate: 'vandalism',
 	warningMessage: '{'+'{subst:uw-%MESSAGE%%LEVEL%|%PAGE%|2=The reverted edit can be found <span class="plainlinks">[%DIFF% here]</span>.}'+'}<!'+'-- igloo:%MESSAGE%%LEVEL% --'+'> ~~'+'~~',
-	warningSummary: 'Level %LEVEL% warning re. vandalism on [[%PAGE%]] ([[User:Ale_jrb/Scripts/igloo|GLOO]])',
-	rollbackSummary: 'Reverted edits by [[Special:Contributions/$2|$2]] to last version by $1 ([[User:Ale_jrb/Scripts/igloo|GLOO]])',
+	warningSummary: 'Level %LEVEL% warning re. vandalism on [[%PAGE%]] ([[Wikipedia:Igloo|GLOO]])',
+	rollbackSummary: 'Reverted edits by [[Special:Contributions/$2|$2]] to last version by $1 ([[Wikipedia:Igloo|GLOO]])',
  
 	warningsOldAfter: 2, // days after which warnings are considered irrelevant
  
@@ -132,8 +133,9 @@ function iglooMain () {
 	this.modules = {};
 
 	this.load = function () {
-		var groups = mw.config.get('wgUserGroups')
-		document.title = 'igloo - ' + iglooUserSettings.version;
+		var groups = mw.config.get('wgUserGroups');
+
+		document.title = 'igloo - ' + iglooUserSettings.version + '[channel: '+ iglooUserSettings.channel + ']';
 
 		for ( var i = 0; i < groups.length; i++ ) {
 			if (groups[i] === 'steward' || groups[i] === 'sysop') { 

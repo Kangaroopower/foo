@@ -845,63 +845,62 @@ iglooRevision.prototype.display = function () {
 			old = {},
 			ots = null;
 
-		igloo.actions.getRevInfo(this.pageTitle, this.revId, function (data) {
+		igloo.actions.getRevInfo(this.pageTitle, this.oldId, function (data) {
 			old = data;
 			ots = new Date(data.timestamp);
+		
+			h2.id = 'iglooPageTitle';
 
 			table.innerHTML = '<tr style="vertical-align: top;font-size:13px;"><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ots.getUTCHours() + ':' + ots.getUTCMinutes() + ', ' + ots.getUTCDate() + ' ' + months[ots.getUTCMonth()] + ' ' + ots.getFullYear() + '</strong></div><div>'+ old.user +'</div><div><strong title="This is a minor edit">'+ old.minor + '</strong>&nbsp;<span>('+ old.comment +')</span></div></td><td colspan="2" style="text-align: center;"><div><strong>Revision as of ' + ts.getUTCHours() + ':' + ts.getUTCMinutes() + ', ' + ts.getUTCDate() + ' ' + months[ts.getUTCMonth()] + ' ' + ts.getFullYear() + '</strong></div><div>' + me.user + '</div><div><strong title="This is a minor edit">'+ me.minor + '</strong>&nbsp;<span>('+ me.summary +')</span></div></td></tr><tr><td id="iglooDiffCol1" colspan="2"> </td><td id="iglooDiffCol2" colspan="2"> </td></tr>' + me.diffContent;
+			h2.innerHTML = this.pageTitle;
+			same.innerHTML = '<br/><span style="text-align:center">(No Change)</span><br/>';
+
+			// Style display element.
+			// TODO
+
+			$(h2).css({'font-size' : '18px', 'margin-bottom': '5px', 'margin-top': '5px'});
+
+			$(table).css({ 'width': '100%', 'overflow': 'auto' });
+			$(table).find('#iglooDiffCol1').css({ 'width': '50%' });
+			$(table).find('#iglooDiffCol2').css({ 'width': '50%' });
+
+			$(table).find('.diff-empty').css('');
+			$(table).find('.diff-addedline').css({ 'background-color': '#ccffcc' });
+			$(table).find('.diff-marker').css({ 'text-align': 'right' });
+			$(table).find('.diff-lineno').css({ 'font-weight': 'bold' });
+			$(table).find('.diff-deletedline').css({ 'background-color': '#ffffaa' });
+			$(table).find('.diff-context').css({ 'background-color': '#eeeeee' });
+			$(table).find('.diffchange').css({ 'color': 'red' });
+			
+			// Clear current display.
+			$(igloo.diffContainer.panel).find('*').remove();
+			
+			//Append history module
+			igloo.past.loadModule();
+
+			// Append new content.
+			igloo.diffContainer.panel.appendChild(h2);
+			if (this.diffContent === "") {
+				igloo.diffContainer.panel.appendChild(same);
+			} else {
+				igloo.diffContainer.panel.appendChild(table);
+			}
+
+			//Alert rollback as to page info
+			igloo.fireEvent('rollback','new-diff', {
+				pageTitle: me.pageTitle,
+				revId: me.revId,
+				user: me.user
+			});
+
+			//Alert history to page info
+			igloo.fireEvent('history','new-diff', {
+				pageTitle: me.pageTitle
+			});
+
+			// we can now revert this edit
+			if ( igloo.justice.reversionEnabled == 'pause' ) igloo.justice.reversionEnabled = 'yes';
 		});
-
-		h2.id = 'iglooPageTitle';
-
-		h2.innerHTML = this.pageTitle;
-		same.innerHTML = '<br/><span style="text-align:center">(No Change)</span><br/>';
-
-		// Style display element.
-		// TODO
-
-		$(h2).css({'font-size' : '18px', 'margin-bottom': '5px', 'margin-top': '5px'});
-
-		$(table).css({ 'width': '100%', 'overflow': 'auto' });
-		$(table).find('#iglooDiffCol1').css({ 'width': '50%' });
-		$(table).find('#iglooDiffCol2').css({ 'width': '50%' });
-
-		$(table).find('.diff-empty').css('');
-		$(table).find('.diff-addedline').css({ 'background-color': '#ccffcc' });
-		$(table).find('.diff-marker').css({ 'text-align': 'right' });
-		$(table).find('.diff-lineno').css({ 'font-weight': 'bold' });
-		$(table).find('.diff-deletedline').css({ 'background-color': '#ffffaa' });
-		$(table).find('.diff-context').css({ 'background-color': '#eeeeee' });
-		$(table).find('.diffchange').css({ 'color': 'red' });
-		
-		// Clear current display.
-		$(igloo.diffContainer.panel).find('*').remove();
-		
-		//Append history module
-		igloo.past.loadModule();
-
-		// Append new content.
-		igloo.diffContainer.panel.appendChild(h2);
-		if (this.diffContent === "") {
-			igloo.diffContainer.panel.appendChild(same);
-		} else {
-			igloo.diffContainer.panel.appendChild(table);
-		}
-
-		//Alert rollback as to page info
-		igloo.fireEvent('rollback','new-diff', {
-			pageTitle: me.pageTitle,
-			revId: me.revId,
-			user: me.user
-		});
-
-		//Alert history to page info
-		igloo.fireEvent('history','new-diff', {
-			pageTitle: me.pageTitle
-		});
-
-		// we can now revert this edit
-		if ( igloo.justice.reversionEnabled == 'pause' ) igloo.justice.reversionEnabled = 'yes';
 	}
 };
 
@@ -957,7 +956,7 @@ iglooActions.prototype.getRevInfo = function (page, revId, cb) {
 			res.timestamp = info.revisions[0].timestamp;
 			res.user = info.revisions[0].user;
 			res.comment = info.revisions[0].comment;
-			res.minor = info.revisions[0].minor;
+			res.minor = "";//info.revisions[0].minor;
 			res.old_revid = info.revisions[0].parentid;
 			res.revid = revId;
 			if (info.revisions[0].parentid === 0) {

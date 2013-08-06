@@ -1528,16 +1528,23 @@ iglooRollback.prototype.warnUser = function( callback, details ) {
 					warnings[i][5] = t[6]; // month
 					warnings[i][6] = t[7]; // year
 
-					i ++;
+					i++;
 				}
 
 				// we are only interested in the latest one
-				if ( typeof warnings[0] == 'undefined' ) { warnings[0] = []; warnings[0][0] = false; warnings[0][1] = 0; }
+				if ( typeof warnings[0] == 'undefined' ) { 
+					warnings[0] = []; 
+					warnings[0][0] = false; 
+					warnings[0][1] = 0; 
+				}
 				var useWarning = warnings.length-1;
 
 				if ( typeof warnings[useWarning][0] === 'string' ) {
 					var t = warnings[useWarning][0];
-					if ( t.indexOf ( 'block' ) > -1 ) { useWarning --; warnings[useWarning][1] = 0; }
+					if ( t.indexOf ( 'block' ) > -1 ) { 
+						useWarning --; 
+						warnings[useWarning][1] = 0; 
+					}
 				}
 						
 				// check when this warning was given
@@ -1554,15 +1561,23 @@ iglooRollback.prototype.warnUser = function( callback, details ) {
 						
 				// check if it is old enough to ignore for the purposes of incremental warnings
 				var timeDiff = ( currentTime + ( currentDate.getTimezoneOffset () * 60 * 1000 ) ) - compareTime;
-				if ( timeDiff > ( iglooUserSettings.warningsOldAfter * 24 * 60 * 60 * 1000 ) ) { warnings[useWarning][1] = 0; }
+				if ( timeDiff > ( iglooUserSettings.warningsOldAfter * 24 * 60 * 60 * 1000 ) ) { 
+					warnings[useWarning][1] = 0; 
+				}
 					
 				// check whether a header already exists for the current month. if not, create one
 				var currentHeader = new RegExp ( '={2,4} *' + months[currentMonth] + ' *' + currentYear + ' *={2,4}', 'gi' );
-				if ( currentHeader.test ( pageData ) != true ) { header = '== '+months[currentMonth]+' '+currentYear+' =='; } else { header = false; }
+				if ( currentHeader.test ( pageData ) != true ) { 
+					header = '== '+months[currentMonth]+' '+currentYear+' =='; 
+				} else { 
+					header = false; 
+				}
 			} else {
 				// if the page does not  exist, we can simply set warnings at the default (lowest) levels
 				// set up the warning and date header for addition to the user's page
-				warnings[0] = []; warnings[0][0] = false; warnings[0][1] = 0;
+				warnings[0] = []; 
+				warnings[0][0] = false; 
+				warnings[0][1] = 0;
 				var useWarning = 0;
 				header = '== '+months[currentMonth]+' '+currentYear+' ==';
 			}
@@ -1604,6 +1619,8 @@ iglooRollback.prototype.warnUser = function( callback, details ) {
 			}, 0, true, true);
 			userReport.run();
 			document.getElementById ( 'iglooPageTitle' ).innerHTML = thisRevert.pageTitle;
+
+			break;
 	}
 };
 		

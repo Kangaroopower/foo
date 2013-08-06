@@ -15,7 +15,7 @@ function iglooInitControl() {
 			case '1':
 				launcher.runIglooInterface.addStatus('- Checking for usergroups...');
 				var groups = mw.config.get('wgUserGroups');
-		
+
 				for ( var i = 0; i < groups.length; i ++ ) {
 					if ( (groups[i] === 'rollbacker') || (groups[i] === 'sysop') || (groups[i] === 'steward') ) { 
 						launcher.runIglooInterface.addStatus('- Usergroup OK!'); 

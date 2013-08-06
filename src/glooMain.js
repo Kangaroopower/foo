@@ -476,7 +476,7 @@ iglooRecentChanges.prototype.update = function () {
 	var me = this;
 	(new iglooRequest({
 		url: me.loadUrl,
-		data: { format: 'json', action: 'query', list: 'recentchanges', rcprop: 'title|user|ids|comment|timestamp' },
+		data: { format: 'json', action: 'query', list: 'recentchanges', rcprop: 'title|user|ids|comment|timestamp|' },
 		dataType: 'json',
 		context: me,
 		success: function (data) {

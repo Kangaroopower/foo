@@ -13,7 +13,7 @@
 			if (mw.config.get('wgPageName') === glooPage) {
 				// the init page handles starting the program and operating settings.
 				// call init.
-				iglooImport ('https://raw.github.com/Kangaroopower/Igloo/dev/src/glooInit.js', true);
+				iglooImport ('https://raw.github.com/Kangaroopower/Igloo/master/src/glooInit.js', true);
 			} else {
 				var iglooDivs = document.getElementsByTagName('div'),
 					serverBase = mw.config.get('wgServer') + mw.config.get('wgArticlePath').substr(0,(mw.config.get('wgArticlePath').length - 2));

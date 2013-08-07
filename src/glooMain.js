@@ -48,7 +48,7 @@ var iglooUserSettings = {
 	maxContentSize: 50,
 	sig: "([[Wikipedia:Igloo|GLOO]])",
 	serverLoc: 'https://raw.github.com/Kangaroopower/Igloo/' + iglooBranch + '/',
-	version: "0.64 Phoenix",
+	version: "0.65 Phoenix",
 	mesysop: false,
 	localBase: 'Wikipedia:Igloo',
 

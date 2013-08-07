@@ -24,6 +24,8 @@
 **			tracker: [[Wikipedia:Igloo]]
 \* ======================================================== */
 
+var iglooBranch = 'dev';
+
 function iglooImport( page, remote ) {
 	var c = new Date ();
 	var cachebypass = '&killcache=' + c.getDate () + c.getSeconds () + c.getMilliseconds ();
@@ -42,7 +44,7 @@ function iglooImport( page, remote ) {
 	return script;
 }
 
-iglooImport ('https://raw.github.com/Kangaroopower/Igloo/dev/lib/flash.js', true);
-iglooImport ('https://raw.github.com/Kangaroopower/Igloo/dev/lib/jin.js', true);
+iglooImport ('https://raw.github.com/Kangaroopower/Igloo/'+iglooBranch+'/lib/flash.js', true);
+iglooImport ('https://raw.github.com/Kangaroopower/Igloo/'+iglooBranch+'/lib/jin.js', true);
 
-iglooImport ('https://raw.github.com/Kangaroopower/Igloo/dev/src/glooInterfaceHook.js', true);
+iglooImport ('https://raw.github.com/Kangaroopower/Igloo/'+iglooBranch+'/src/glooInterfaceHook.js', true);

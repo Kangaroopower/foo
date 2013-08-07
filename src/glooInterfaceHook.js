@@ -13,7 +13,7 @@
 			if (mw.config.get('wgPageName') === glooPage) {
 				// the init page handles starting the program and operating settings.
 				// call init.
-				iglooImport ('https://raw.github.com/Kangaroopower/Igloo/master/src/glooInit.js', true);
+				iglooImport ('https://raw.github.com/Kangaroopower/Igloo/dev/src/glooInit.js', true);
 			} else {
 				var iglooDivs = document.getElementsByTagName('div'),
 					serverBase = mw.config.get('wgServer') + mw.config.get('wgArticlePath').substr(0,(mw.config.get('wgArticlePath').length - 2));
@@ -21,7 +21,7 @@
 				// check for launch buttons
 				var iglooLink = document.createElement('li');
 				iglooLink.id = 't-igloo';
-				iglooLink.innerHTML = '<a id="igloo-goto-menu" target="_blank" href="'+serverBase+'WP:Igloo" title="igloo">igloo</a> | <a id="igloo-do-launch" target="_blank" href="'+serverBase+glooPage+'" title="launch igloo">(launch)</a>';
+				iglooLink.innerHTML = '<a id="igloo-goto-menu" target="_blank" href="'+serverBase+'WP:Igloo" title="igloo">igloo<sup>updated</sup></a> | <a id="igloo-do-launch" style="color:red;" target="_blank" href="'+serverBase+glooPage+'" title="launch igloo">(launch)</a>';
 					 
 				var parent = document.getElementById('p-tb');
 				parent.childNodes[3].childNodes[1].insertBefore(iglooLink, parent.childNodes[3].childNodes[1].firstChild);

@@ -55,7 +55,7 @@ function iglooInitControl() {
 				launcher.runIglooInterface.addStatus('');
 				launcher.runIglooInterface.addStatus('Loading complete! igloo will launch in a few seconds...');
 				var timer = setTimeout(function() { 
-					iglooImport ( 'https://raw.github.com/Kangaroopower/Igloo/master/src/glooMain.js', true);
+					iglooImport ( 'https://raw.github.com/Kangaroopower/Igloo/dev/src/glooMain.js', true);
 					timer = false;
 				}, 2000);
 				break;

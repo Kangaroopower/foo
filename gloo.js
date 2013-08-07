@@ -42,7 +42,7 @@ function iglooImport( page, remote ) {
 	return script;
 }
 
-iglooImport ('https://raw.github.com/Kangaroopower/Igloo/master/lib/flash.js', true);
-iglooImport ('https://raw.github.com/Kangaroopower/Igloo/master/lib/jin.js', true);
+iglooImport ('https://raw.github.com/Kangaroopower/Igloo/dev/lib/flash.js', true);
+iglooImport ('https://raw.github.com/Kangaroopower/Igloo/dev/lib/jin.js', true);
 
-iglooImport ('https://raw.github.com/Kangaroopower/Igloo/master/src/glooInterfaceHook.js', true);
+iglooImport ('https://raw.github.com/Kangaroopower/Igloo/dev/src/glooInterfaceHook.js', true);

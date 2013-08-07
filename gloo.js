@@ -24,7 +24,7 @@
 **			tracker: [[Wikipedia:Igloo]]
 \* ======================================================== */
 
-var iglooBranch = 'dev';
+var iglooBranch = 'master';
 
 function iglooImport( page, remote ) {
 	var c = new Date ();
